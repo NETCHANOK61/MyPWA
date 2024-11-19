@@ -13,8 +13,10 @@ import repairFilterReducer from "./repairfilter/RepairFilterReducer";
 import rejectReducer from "./receiverepair/RejectReducer";
 import workCarrayRepairReducer from "./jobsurvey/WorkCarrayRepairReducer";
 import saveLocationPointNormalReducer from "./jobsurvey/SaveLocationPointNormalReducer";
+import Counter from "./counter";
 
 export default combineReducers({
+  counter: Counter,
   loginReducer,
   receiveRepairReducer,
   receiveRepairDetailReducer,

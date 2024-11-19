@@ -29,6 +29,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function LoginScreen(props) {
   // const dispatch = useDispatch();
+  // const count = useSelector((state) => state.counter.count);
   const ref_inputPassword = useRef();
 
   const [username, setUsername] = useState("");
