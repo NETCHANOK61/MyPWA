@@ -14,6 +14,8 @@ import RepairJobScreen from "../screen/receiverepair/RepairJobScreen";
 import WorkRepairScreen from "../screen/workrepair/WorkRepairScreen";
 import RepairFilterScreen from "../screen/repairfilter/RepairFilterScreen";
 import ProfileScreen from "../screen/profile/ProfileScreen";
+// import location from '../components/location/Location';
+// import savelocation from '../screen/jobsurvey/SaveLocationPointNormal/index';
 
 import mainTabScreen from "../screen/jobsurvey/MainTabScreen";
 
@@ -21,8 +23,7 @@ const { width: viewportWidth, height: viewportHeight } =
   Dimensions.get("window");
 
 const Stack = createStackNavigator();
-const RootStack = ({ showAuthen }) => {
-  console.log('showAuthen:', showAuthen);
+const RootStack = (props) => {
   return (
     <Stack.Navigator initialRouteName="Login">
       <>
@@ -41,7 +42,7 @@ const RootStack = ({ showAuthen }) => {
           component={SuccessTab}
           options={{
             title: "",
-            headerShown: true,
+            headerShown: false,
             headerBackTitle: " ",
           }}
         />
@@ -74,6 +75,7 @@ const RootStack = ({ showAuthen }) => {
 };
 
 const Tab = createBottomTabNavigator();
+
 const Tab1 = {
   title: "รับงานซ่อม",
   tabBarLabel: "รับงานซ่อม",
@@ -353,7 +355,6 @@ const ProfileStackScreen = ({ navigation, route }) => {
 const SuccessTab = () => {
   return (
     <Tab.Navigator
-      initialRouteName="ReceiveRepair"
       backBehavior="none"
       tabBarOptions={{
         labelStyle: { fontFamily: "Prompt-Bold" },
