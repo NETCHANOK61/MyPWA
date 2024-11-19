@@ -10,9 +10,6 @@ import { getProfile } from "./src/app/utils/Storage";
 export default function App() {
   const [showLogin, setShowLogin] = useState(false);
 
-  const loginState = useSelector((state) => state); // นำค่าจาก Redux มาใช้
-  const { dataObject, dataError } = loginState;
-
   const init = () => {
     getProfile().then((profile) => {
       setShowLogin(profile == null ? true : false);
@@ -21,8 +18,7 @@ export default function App() {
 
   useEffect(() => {
     init();
-    console.log('Redux loginState:', loginState); // แสดงข้อมูล loginState ในคอนโซล
-  }, [loginState]); // ทุกครั้งที่ loginState เปลี่ยน
+  });
 
   return (
     <NavigationContainer>
