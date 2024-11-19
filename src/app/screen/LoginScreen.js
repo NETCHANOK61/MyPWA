@@ -28,7 +28,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function LoginScreen(props) {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   // const count = useSelector((state) => state.counter.count);
   const ref_inputPassword = useRef();
 
@@ -164,17 +164,17 @@ export default function LoginScreen(props) {
     } else {
       setVisibleLoading(true);
 
-      // dispatch(
-      //   LoginAction.login(
-      //     username,
-      //     password,
-      //     props,
-      //     checked,
-      //     hideLoading,
-      //     loginFailed,
-      //     togleCheckEmployee
-      //   )
-      // );
+      dispatch(
+        LoginAction.login(
+          username,
+          password,
+          props,
+          checked,
+          hideLoading,
+          loginFailed,
+          togleCheckEmployee
+        )
+      );
     }
   };
 
