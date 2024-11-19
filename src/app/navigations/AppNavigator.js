@@ -14,6 +14,7 @@ import RepairJobScreen from "../screen/receiverepair/RepairJobScreen";
 import WorkRepairScreen from "../screen/workrepair/WorkRepairScreen";
 import RepairFilterScreen from "../screen/repairfilter/RepairFilterScreen";
 import ProfileScreen from "../screen/profile/ProfileScreen";
+import * as repairFilterAction from '../actions/repairfilter/RepairFilterAction';
 // import location from '../components/location/Location';
 // import savelocation from '../screen/jobsurvey/SaveLocationPointNormal/index';
 
