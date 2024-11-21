@@ -765,11 +765,6 @@ export default function DetailWorkCallScreen(props) {
               }}
               buttonStyle={detailWorkCallStyle.dropdown2BtnStyle}
               buttonTextStyle={detailWorkCallStyle.dropdown2BtnTxtStyle}
-              renderDropdownIcon={() => {
-                return (
-                  <FontAwesome name="chevron-down" color={'black'} size={18} />
-                );
-              }}
               dropdownIconPosition={'right'}
               dropdownStyle={detailWorkCallStyle.dropdown2DropdownStyle}
               rowStyle={detailWorkCallStyle.dropdown2RowStyle}

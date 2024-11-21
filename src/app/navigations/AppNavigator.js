@@ -477,7 +477,7 @@ const MyTab = ({ navigation, route }) => {
           headerBackTitle: " ",
         }}
       />
-      <StackJobSurvey.Screen
+      {/* <StackJobSurvey.Screen
         name="location2"
         component={location}
         options={{
@@ -490,7 +490,7 @@ const MyTab = ({ navigation, route }) => {
           headerBackTitle: " ",
           headerTitleAlign: "center",
         }}
-      />
+      /> */}
       <StackReciveRepair.Screen
         name="workrepairtabscreen"
         component={MyTab}
