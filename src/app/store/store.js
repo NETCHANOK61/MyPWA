@@ -12,6 +12,7 @@
 // export default store;
 
 import { configureStore, createSlice } from '@reduxjs/toolkit';
+import rootReducer from '../reducers/index';
 
 // สร้าง slice สำหรับ counter
 const counterSlice = createSlice({
@@ -28,9 +29,7 @@ export const { INCREMENT, DECREMENT } = counterSlice.actions;
 
 // สร้าง store
 const store = configureStore({
-  reducer: {
-    counter: counterSlice.reducer,
-  },
+  reducer: rootReducer
 });
 
 export default store;

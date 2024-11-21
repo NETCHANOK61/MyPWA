@@ -16,7 +16,7 @@ import * as receiveRepairDetailAction from '../../actions/receiverepair/ReceiveR
 export default function ReceiveRepairScreen(props) {
   const dispatch = useDispatch();
   const receiveRepairReducer = useSelector(state => {
-    console.log("receiveRepairReducer", state);  // Log the entire state to check its structure
+    // console.log("receiveRepairReducer", state);  // Log the entire state to check its structure
     return state.receiveRepairReducer;
   });
   const dataArray = receiveRepairReducer?.dataArray || [];
@@ -235,7 +235,7 @@ export default function ReceiveRepairScreen(props) {
             <ActivityIndicator size={'large'} />
           </Box> : null
         }
-        {/* {dataArray.length == 0 && isLoadding == true && isCheckData == false ?
+        {dataArray.length == 0 && isLoadding == true && isCheckData == false ?
           <Box flex={1} justifyContent={'center'} alignItems={'center'} >
             <Text style={[textsty.text_xl_bold_color_blue, { opacity: 0.3 }]}>{'ไม่พบข้อมูล'}</Text>
             <MaterialCommunityIcons
@@ -263,7 +263,7 @@ export default function ReceiveRepairScreen(props) {
             initialNumToRender={10}
             windowSize={10}
           />
-        } */}
+        }
         <LoadingSpinner
           width={0.75 * viewportWidth}
           height={0.18 * viewportHeight}

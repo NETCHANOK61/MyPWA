@@ -41,8 +41,10 @@ export const loadDataWitchPost = props => {
         IncidentAddress: null,
         RequestCategorySubject: null,
         IncidentCaseDetail: null,
-        FromDate: moment(from_Date).format('YYYYMMDD'),
-        ToDate: '',
+        FromDate: "20/11/2567",
+        ToDate: "21/11/2567",
+        // FromDate: moment(from_Date).format('YYYYMMDD'),
+        // ToDate: '',
         Contact: {
           Telephone: '',
         },
@@ -55,6 +57,7 @@ export const loadDataWitchPost = props => {
       await loaddata(req)
         .then(async res => {
           dispatch(setStateToSuccess(res.data.result));
+          // console.log("res", res.data.result);
         })
         .catch(error => {
           checkedToken(error, props);
@@ -105,7 +108,7 @@ export const loadDataWitchPostFilter = (
         .then(async res => {
           if (res.data.result.length > 0) {
             dispatch(setStateToSuccess(res.data.result));
-            console.log("res", res.data.result);
+            // console.log("res", res.data.result);
             callback(1);
           } else {
             callback(0);
