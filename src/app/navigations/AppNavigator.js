@@ -365,6 +365,9 @@ const SuccessTab = () => {
         labelStyle: { fontFamily: "Prompt-Bold" },
         style: { backgroundColor: "white" },
       }}
+      screenOptions={{
+        headerShown: false,
+      }}
     >
       <>
         <Tab.Screen
