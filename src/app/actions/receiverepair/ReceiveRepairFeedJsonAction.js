@@ -76,6 +76,8 @@ export const loadDataWitchPostFilter = (
   callback,
 ) => {
   return async dispatch => {
+    console.log("receivedcasedate", receivedcasedate)
+    console.log("completedCaseDate", completedCaseDate)
     try {
       const profile = await getProfile().then(data => {
         return data;
@@ -98,11 +100,12 @@ export const loadDataWitchPostFilter = (
           currentPage: 1,
         },
       };
-
+      // console.log("req", req)
       await loaddata(req)
         .then(async res => {
           if (res.data.result.length > 0) {
             dispatch(setStateToSuccess(res.data.result));
+            console.log("res", res.data.result);
             callback(1);
           } else {
             callback(0);

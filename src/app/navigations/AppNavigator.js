@@ -12,9 +12,9 @@ import ReceiveRepairScreen from "../screen/receiverepair/ReceiveRepairScreen";
 import DetailWorkCallScreen from "../screen/receiverepair/DetailWorkCallScreen";
 import RepairJobScreen from "../screen/receiverepair/RepairJobScreen";
 import WorkRepairScreen from "../screen/workrepair/WorkRepairScreen";
-import RepairFilterScreen from "../screen/repairfilter/RepairFilterScreen";
+import ReceiveRepairSearchScreen from "../screen/repairfilter/RepairFilterScreen";
 import ProfileScreen from "../screen/profile/ProfileScreen";
-import * as repairFilterAction from '../actions/repairfilter/RepairFilterAction';
+import * as repairFilterAction from "../actions/repairfilter/RepairFilterAction";
 // import location from '../components/location/Location';
 // import savelocation from '../screen/jobsurvey/SaveLocationPointNormal/index';
 
@@ -129,7 +129,8 @@ const ReceiveRepairStackScreen = ({ navigation, route }) => {
             <TouchableOpacity
               activeOpacity={0.1}
               onPress={async () => {
-                dispatch(repairFilterAction.inncidentSearch(navigation));
+                navigation.navigate("ReceiveRepair", {screen:"ReceiveRepairSearchScreen"})
+                // dispatch(repairFilterAction.inncidentSearch(navigation));
               }}
               style={{ padding: 10 }}
             >
@@ -183,8 +184,8 @@ const ReceiveRepairStackScreen = ({ navigation, route }) => {
         }}
       />
       <StackReciveRepair.Screen
-        name="RepairFilterScreen"
-        component={RepairFilterScreen}
+        name="ReceiveRepairSearchScreen"
+        component={ReceiveRepairSearchScreen}
         options={{
           title: "ค้นหารายการรับเรื่องซ่อม",
           headerTintColor: "#2c689e",
@@ -290,7 +291,10 @@ const WorkRepairStackScreen = ({ navigation, route }) => {
             <TouchableOpacity
               activeOpacity={0.1}
               onPress={async () => {
-                navigation.navigate("RepairFilterScreen2");
+                // navigation.navigate("WorkRepairStackScreen", {
+                //   screen: "ReceiveRepairSearchScreen2",
+                // });
+                navigation.navigate("WorkRepair", {screen:"ReceiveRepairSearchScreen2"})
               }}
               style={{ padding: 10 }}
             >
@@ -304,8 +308,8 @@ const WorkRepairStackScreen = ({ navigation, route }) => {
         }}
       />
       <StackWorkRepair.Screen
-        name="RepairFilterScreen2"
-        component={RepairFilterScreen}
+        name="ReceiveRepairSearchScreen2"
+        component={ReceiveRepairSearchScreen}
         options={{
           title: "ค้นหารายการงานซ่อม",
           headerTintColor: "#2c689e",

@@ -19,9 +19,9 @@ export const inncidentSearch = navigation => {
   return async dispatch => {
     try {
       // await serviveFetch('GET', url.getIncidentSearchCriteria)
-      //   .then(data => {
+      //   .then(data => {ß
       //     dispatch(setStateIncidentSearchSuccess(data));
-      navigation.navigate('RepairFilterScreen');
+      // navigation.navigate('RepairFilterScreen');ß
       // })
       // .catch(error => {
       //   dispatch(setStateIncidentSearchFailed());
