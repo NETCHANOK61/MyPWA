@@ -26,6 +26,7 @@ export const setStateToFailed = () => ({
 export const loadDataWitchPost = props => {
   let date = new Date();
   let from_Date = date.setDate(date.getDate() - 3);
+  console.log(moment(from_Date).format('YYYYMMDD'))
   return async dispatch => {
     try {
       dispatch(setStateToFetching());
@@ -41,10 +42,8 @@ export const loadDataWitchPost = props => {
         IncidentAddress: null,
         RequestCategorySubject: null,
         IncidentCaseDetail: null,
-        FromDate: "20/11/2567",
-        ToDate: "21/11/2567",
-        // FromDate: moment(from_Date).format('YYYYMMDD'),
-        // ToDate: '',
+        FromDate: moment(from_Date).format('YYYYMMDD'),
+        ToDate: '',
         Contact: {
           Telephone: '',
         },
@@ -108,7 +107,7 @@ export const loadDataWitchPostFilter = (
         .then(async res => {
           if (res.data.result.length > 0) {
             dispatch(setStateToSuccess(res.data.result));
-            // console.log("res", res.data.result);
+            console.log("res", res.data.result);
             callback(1);
           } else {
             callback(0);

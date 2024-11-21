@@ -64,10 +64,11 @@ export default function ReceiveRepairSearchScreen(props) {
   // };
 
   const formatDate = (date) => {
+    // console.log("formatDate in function", date);
     const d = new Date(date);
     let month = "" + (d.getMonth() + 1),
       day = "" + d.getDate(),
-      year = d.getFullYear();
+      year = d.getFullYear() + 543;
 
     if (month.length < 2) month = "0" + month;
     if (day.length < 2) day = "0" + day;
@@ -87,7 +88,7 @@ export default function ReceiveRepairSearchScreen(props) {
     (params) => {
       setOpenNoti(false);
       setDate(params.date);
-      setNotiDate(moment(params.date).add(543, "year").format("DD/MM/YYYY"));
+      setNotiDate(moment(params.date).format("DD/MM/YYYY"));
     },
     [setOpenNoti, setDate]
   );
@@ -96,28 +97,28 @@ export default function ReceiveRepairSearchScreen(props) {
     (params) => {
       setOpenTo(false);
       setDate(params.date);
-      setToDate(moment(params.date).add(543, "year").format("DD/MM/YYYY"));
+      setToDate(moment(params.date).format("DD/MM/YYYY"));
     },
     [(setOpenTo, setDate)]
   );
 
   const DatePicker_Noti = ({ con, dis }) => {
-    let dateNoti = moment(notiDate, "DD/MM/YYYY").add(-543, "year");
+    let dateNoti = moment(notiDate, "DD/MM/YYYY");
     return (
-        <DatePickerModal
-          locale={"th"}
-          mode="single"
-          visible={openNoti}
-          onDismiss={dis}
-          date={new Date(dateNoti)}
-          allowEditing={true}
-          onConfirm={con}
-        />
+      <DatePickerModal
+        locale={"th"}
+        mode="single"
+        visible={openNoti}
+        onDismiss={dis}
+        date={new Date(dateNoti)}
+        allowEditing={true}
+        onConfirm={con}
+      />
     );
   };
 
   const DatePicker_to = ({ con, dis }) => {
-    let dateTo = moment(toDate, "DD/MM/YYYY").add(-543, "year");
+    let dateTo = moment(toDate, "DD/MM/YYYY");
     return (
       <DatePickerModal
         locale={"th"}
@@ -137,6 +138,7 @@ export default function ReceiveRepairSearchScreen(props) {
       const currentDate = selectedDate || date;
       setShow(Platform.OS === "ios");
       setNotiDate(formatDate(currentDate));
+      // console.log("formatDate in setStateDate_Noti", formatDate(currentDate));
     },
     [setNotiDate]
   );
@@ -184,8 +186,8 @@ export default function ReceiveRepairSearchScreen(props) {
     setNoNoti("");
     setName("");
     setTel("");
-    setNotiDate("");
-    setToDate("");
+    setNotiDate(dateNowThBack(3)); // รีเซ็ตเป็นวันที่เริ่มต้น
+    setToDate(dateNowTh());
   };
 
   const _alert = (result) => {
@@ -199,19 +201,17 @@ export default function ReceiveRepairSearchScreen(props) {
 
   const search = () => {
     setVisibleLoading(true);
-    const start_test = "20/11/2567"
-    const end_test = "21/11/2567"
+    // const start_test = "20/11/2567"
+    // const end_test = "21/11/2567"
     if (props.route.name == "ReceiveRepairSearchScreen") {
-      // console.log("A")
+      console.log("A")
       dispatch(
         receiveRepairFeedJsonAction.loadDataWitchPostFilter(
           tel,
           name,
           noNoti,
-          start_test,
-          end_test,
-          // notiDate,
-          // toDate,
+          notiDate,
+          toDate,
           props,
           _alert
         )
