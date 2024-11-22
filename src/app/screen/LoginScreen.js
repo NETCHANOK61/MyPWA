@@ -152,7 +152,7 @@ export default function LoginScreen(props) {
   };
 
   const onClickLogin = async () => {
-    console.log("click login");
+    // console.log("click login");
     Keyboard.dismiss();
     if (username == "" || password == "") {
       Alert.alert("", "กรุณากรอกรหัสผู้ใช้งาน หรือ รหัสผ่าน", [

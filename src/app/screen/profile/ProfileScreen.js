@@ -102,16 +102,19 @@ const ProfileScreen = (props) => {
   const arr_profile = (_obj) => {
     return [
       {
+        index: 1,
         name: "ข้อมูลส่วนตัว",
         icon_p: "format-list-bulleted",
         lable: "",
       },
       {
+        index: 2,
         name: "รหัสพนักงาน",
         icon_p: "account-circle",
         lable: _obj == null ? "" : _obj.username,
       },
       {
+        index: 3,
         name: "ชื่อ-สกุล",
         icon_p: "account-circle",
         lable: `${_obj == null ? "" : _obj.first_name} ${
@@ -119,6 +122,7 @@ const ProfileScreen = (props) => {
         }`,
       },
       {
+        index: 4,
         name: "ตำเเหน่ง",
         icon_p: "briefcase-variant",
         lable: _obj == null ? "" : _obj.position,

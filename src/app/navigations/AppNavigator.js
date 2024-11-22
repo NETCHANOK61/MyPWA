@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { TouchableOpacity, Platform, Dimensions } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -104,12 +105,15 @@ const Tab3 = {
 const StackReciveRepair = createStackNavigator();
 
 const ReceiveRepairStackScreen = ({ navigation, route }) => {
-  if (route.state && route.state.index > 0) {
-    navigation.setOptions({ tabBarVisible: false });
-  } else {
-    navigation.setOptions({ tabBarVisible: true });
-  }
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (route.state && route.state.index > 0) {
+      navigation.setOptions({ tabBarVisible: false });
+    } else {
+      navigation.setOptions({ tabBarVisible: true });
+    }
+  }, [route.state?.index, navigation]); 
 
   return (
     <StackReciveRepair.Navigator>
@@ -268,11 +272,14 @@ const ReceiveRepairStackScreen = ({ navigation, route }) => {
 const StackWorkRepair = createStackNavigator();
 
 const WorkRepairStackScreen = ({ navigation, route }) => {
-  if (route.state && route.state.index > 0) {
-    navigation.setOptions({ tabBarVisible: false });
-  } else {
-    navigation.setOptions({ tabBarVisible: true });
-  }
+  useEffect(() => {
+    if (route.state && route.state.index > 0) {
+      navigation.setOptions({ tabBarVisible: false });
+    } else {
+      navigation.setOptions({ tabBarVisible: true });
+    }
+  }, [route.state?.index, navigation]); 
+  
   return (
     <StackWorkRepair.Navigator>
       <StackWorkRepair.Screen

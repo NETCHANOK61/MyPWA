@@ -26,7 +26,6 @@ export const setStateToFailed = () => ({
 export const loadDataWitchPost = props => {
   let date = new Date();
   let from_Date = date.setDate(date.getDate() - 3);
-  console.log(moment(from_Date).format('YYYYMMDD'))
   return async dispatch => {
     try {
       dispatch(setStateToFetching());
@@ -78,8 +77,8 @@ export const loadDataWitchPostFilter = (
   callback,
 ) => {
   return async dispatch => {
-    console.log("receivedcasedate", receivedcasedate)
-    console.log("completedCaseDate", completedCaseDate)
+    // console.log("receivedcasedate", receivedcasedate)
+    // console.log("completedCaseDate", completedCaseDate)
     try {
       const profile = await getProfile().then(data => {
         return data;

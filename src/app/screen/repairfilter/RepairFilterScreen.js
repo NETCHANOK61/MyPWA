@@ -204,7 +204,7 @@ export default function ReceiveRepairSearchScreen(props) {
     // const start_test = "20/11/2567"
     // const end_test = "21/11/2567"
     if (props.route.name == "ReceiveRepairSearchScreen") {
-      console.log("A")
+      // console.log("A")
       dispatch(
         receiveRepairFeedJsonAction.loadDataWitchPostFilter(
           tel,
