@@ -35,15 +35,13 @@ export const loadGetRepairWorkById = (payload, props, callback) => {
         .then(async (res) => {
           callback(false);
           dispatch(setStateGetRepairWorkByIdSuccess(res.data));
-          props.navigation.navigate("WorkRepair", {
+          props.navigation.navigate("ReceiveRepair", {
             screen: "workrepairtabscreen",
-            rwcode: res.data.rwCode,
-            page: "2",
+            params: {
+              rwcode: res.data.rwCode,
+              page: "2",
+            },
           });
-          // props.navigation.navigate('workrepairtabscreen', {
-          //   rwcode: res.data.rwCode,
-          //   page: '2',
-          // });
         })
         .catch((error) => {
           dispatch(setStateGetRepairWorkByIdFailed());

@@ -13,12 +13,9 @@ import { useIsFocused } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-// import ImagePicker from 'react-native-image-crop-picker';
-// import ImageResizer from 'react-native-image-resizer';
-// import RNFS from 'react-native-fs';
-import * as ImagePicker from 'expo-image-picker';
-import * as ImageManipulator from 'expo-image-manipulator';
-import * as FileSystem from 'expo-file-system';
+import ImagePicker from 'react-native-image-crop-picker';
+import ImageResizer from 'react-native-image-resizer';
+import RNFS from 'react-native-fs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
@@ -233,58 +230,36 @@ export default function WorkTakePhotoScreen(props) {
     });
   };
 
-  const selectPhotoTapped = async (imageSeq) => {
-    try {
-      // Request permission to access media library
-      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== 'granted') {
-        alert('Permission is required to access the gallery.');
-        return;
-      }
-  
-      // Open image picker
-      const result = await ImagePicker.launchImageLibraryAsync({
-        base64: true,
-        exif: true,
-      });
-  
-      if (!result.canceled) {
-        const image = result.assets[0];
-  
-        // Resize image
-        const mode = 'contain';
-        const resizedImage = await ImageManipulator.manipulateAsync(
-          image.uri,
-          [{ resize: { width: 720, height: 960 } }],
-          {
-            compress: 1,
-            format: ImageManipulator.SaveFormat.JPEG,
-          }
-        );
-  
-        // Convert resized image to base64
-        const base64Image = await FileSystem.readAsStringAsync(resizedImage.uri, {
-          encoding: FileSystem.EncodingType.Base64,
-        });
-  
-        // Set the image in the state based on imageSeq
+  const selectPhotoTapped = imageSeq => {
+    ImagePicker.openPicker({
+      // width: 720,
+      // height: 960,
+      cropping: false,
+      includeBase64: true,
+      includeExif: true,
+    }).then(async (image) => {
+      let mode = 'contain';
+      let onlyScaleDown = false;
+      let resizedImage = await ImageResizer.createResizedImage(image.path, 720, 960, 'JPEG', 100, 0, undefined, false, { mode, onlyScaleDown }).then(async (resizedImage) => {
+        return resizedImage;
+      }).catch(err => { console.error(err) });
+      // console.log('imagePath', resizedImage);
+      let base64Image = await RNFS.readFile(resizedImage.uri, 'base64').then(res => { return res });
+      // const ImageBase64 = image.data;
+      setTimeout(() => {
         switch (imageSeq) {
           case 1:
-            setImage_1(base64Image);
-            break;
+            return setImage_1(base64Image);
           case 2:
-            setImage_2(base64Image);
-            break;
+            return setImage_2(base64Image);
           case 3:
-            setImage_3(base64Image);
-            break;
+            return setImage_3(base64Image);
           default:
             break;
         }
-      }
-    } catch (e) {
-      console.error(e);
-    }
+      }, 800);
+    })
+      .catch(e => console.log(e));
   };
 
   const setStateAlert = (
@@ -325,7 +300,7 @@ export default function WorkTakePhotoScreen(props) {
           setVisibleAlert(false);
           setTimeout(() => {
             setVisibleLoading(true);
-            // handleSaveImages();
+            handleSaveImages();
           }, 500);
         },
         () => {
