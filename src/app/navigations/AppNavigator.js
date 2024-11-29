@@ -410,6 +410,8 @@ const MyTab = ({ navigation, route }) => {
         title: route.params.rwcode,
         headerTitleStyle: { color: "#2c689e", fontFamily: "Prompt-Bold" },
         headerTitleAlign: "center",
+        headerShown: true,
+        headerBackTitle: " ",
         headerLeft: () => (
           <TouchableOpacity
             activeOpacity={0.1}
