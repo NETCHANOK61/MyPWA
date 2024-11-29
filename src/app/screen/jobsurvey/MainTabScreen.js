@@ -196,7 +196,6 @@ export default function MainTabScreen(props) {
                 {route.title}
               </Text>
             )}
-            style={{ backgroundColor: 'white' }}
             indicatorStyle={{ backgroundColor: '#3a405a' }}
           />
         )}

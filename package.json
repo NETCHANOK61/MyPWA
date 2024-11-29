@@ -21,6 +21,7 @@
     "color": "^4.2.3",
     "color-convert": "^2.0.1",
     "expo": "~52.0.6",
+    "expo-camera": "~16.0.7",
     "expo-file-system": "~18.0.4",
     "expo-image-manipulator": "~13.0.5",
     "expo-image-picker": "~16.0.3",

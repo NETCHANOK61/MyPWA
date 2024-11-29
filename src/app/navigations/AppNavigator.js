@@ -15,9 +15,9 @@ import RepairJobScreen from "../screen/receiverepair/RepairJobScreen";
 import WorkRepairScreen from "../screen/workrepair/WorkRepairScreen";
 import ReceiveRepairSearchScreen from "../screen/repairfilter/RepairFilterScreen";
 import ProfileScreen from "../screen/profile/ProfileScreen";
-// import WorkTakePhotoScreen from '../screen/jobsurvey/WorkTakePhotoScreen';
-// import camara from '../screen/camera/index';
-// import location from '../components/location/Location';
+import WorkTakePhotoScreen from '../screen/jobsurvey/WorkTakePhotoScreen';
+import camara from '../screen/camera/index';
+import location from '../components/location/Location';
 // import savelocation from '../screen/jobsurvey/SaveLocationPointNormal/index';
 
 import mainTabScreen from "../screen/jobsurvey/MainTabScreen";
@@ -202,7 +202,7 @@ const ReceiveRepairStackScreen = ({ navigation, route }) => {
           headerTitleAlign: "center",
         }}
       />
-      {/* <StackReciveRepair.Screen
+      <StackReciveRepair.Screen
         name="workrepairtabscreen"
         component={MyTab}
         options={{
@@ -214,8 +214,8 @@ const ReceiveRepairStackScreen = ({ navigation, route }) => {
           },
           headerBackTitle: " ",
         }}
-      /> */}
-      {/* <StackReciveRepair.Screen
+      />
+      <StackReciveRepair.Screen
         name="location"
         component={location}
         options={{
@@ -228,7 +228,7 @@ const ReceiveRepairStackScreen = ({ navigation, route }) => {
           headerBackTitle: " ",
           headerTitleAlign: "center",
         }}
-      /> */}
+      />
       {/* <StackReciveRepair.Screen
         name="savelocation"
         component={savelocation}
@@ -471,12 +471,12 @@ const MyTab = ({ navigation, route }) => {
           headerBackTitle: " ",
         }}
       />
-      {/* <StackJobSurvey.Screen
+      <StackJobSurvey.Screen
         name="WorkTakePhotoScreen"
         component={WorkTakePhotoScreen}
         options={{}}
-      /> */}
-      {/* <StackJobSurvey.Screen
+      />
+      <StackJobSurvey.Screen
         name="camera"
         component={camara}
         options={{
@@ -484,8 +484,8 @@ const MyTab = ({ navigation, route }) => {
           headerShown: false,
           headerBackTitle: " ",
         }}
-      /> */}
-      {/* <StackJobSurvey.Screen
+      />
+      <StackJobSurvey.Screen
         name="location2"
         component={location}
         options={{
@@ -498,7 +498,7 @@ const MyTab = ({ navigation, route }) => {
           headerBackTitle: " ",
           headerTitleAlign: "center",
         }}
-      /> */}
+      />
       <StackReciveRepair.Screen
         name="workrepairtabscreen"
         component={MyTab}

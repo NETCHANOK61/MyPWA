@@ -25,6 +25,7 @@ const { width: viewportWidth, height: viewportHeight } =
 
 export default function WorkRepairScreen(props) {
   const workRepairReducer = useSelector((state) => state.workRepairReducer);
+  console.log(workCarryRepairAction)
   const dispatch = useDispatch();
   const [isVisible, setIsVisible] = useState(false);
   const [rwId, setRwId] = useState("");
