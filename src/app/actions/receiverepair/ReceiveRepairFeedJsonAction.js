@@ -106,7 +106,7 @@ export const loadDataWitchPostFilter = (
         .then(async res => {
           if (res.data.result.length > 0) {
             dispatch(setStateToSuccess(res.data.result));
-            console.log("res", res.data.result);
+            // console.log("res", res.data.result);
             callback(1);
           } else {
             callback(0);

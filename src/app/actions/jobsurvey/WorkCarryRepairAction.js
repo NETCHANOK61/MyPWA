@@ -159,7 +159,7 @@ export const loadSurvey = rwId => {
     try {
       await callServive(url.GetRepairWorkByID + '/' + rwId)
         .then(async res => {
-          console.log('callServive', res);
+          // console.log('callServive', res);
           dispatch(setStateGetRepairWorkByIdSuccess(res));
         })
         .catch(error => {

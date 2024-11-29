@@ -217,7 +217,7 @@ export default function ReceiveRepairSearchScreen(props) {
         )
       );
       // console.log("B")
-    } else if (props.route.name == "ReceiveRepairSearchScreen") {
+    } else if (props.route.name == "ReceiveRepairSearchScreen2") {
       dispatch(
         workRepairAction.loadDataWitchPostFilter(
           tel,
