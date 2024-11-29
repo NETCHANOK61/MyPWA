@@ -5,6 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 import CheckUpdate from "../screen/checkupdate";
 import LoginScreen from "../screen/LoginScreen";
@@ -151,7 +152,8 @@ const ReceiveRepairStackScreen = ({ navigation, route }) => {
         }}
       />
       <StackReciveRepair.Screen
-        name="RecevieRepairScreen"
+        // name="RecevieRepairScreen"
+        name="DetailReceiveScreen"
         component={DetailWorkCallScreen}
         options={{
           title: "รายละเอียดงานรับเเจ้ง",
@@ -162,6 +164,7 @@ const ReceiveRepairStackScreen = ({ navigation, route }) => {
           },
           headerBackTitle: " ",
           headerTitleAlign: "center",
+          tabBarStyle: { display: 'none' }
         }}
       />
       <StackReciveRepair.Screen
@@ -369,7 +372,7 @@ const ProfileStackScreen = ({ navigation, route }) => {
   );
 };
 
-const SuccessTab = () => {
+const SuccessTab = ({ navigation, route }) => {
   return (
     <Tab.Navigator
       backBehavior="none"
@@ -377,9 +380,10 @@ const SuccessTab = () => {
         labelStyle: { fontFamily: "Prompt-Bold" },
         style: { backgroundColor: "white" },
       }}
-      screenOptions={{
+      screenOptions={({ route }) => ({
+        // tabBarStyle: route.name !== 'RecevieRepairScreen' ? { display: 'flex' } : { display: 'none' },
         headerShown: false,
-      }}
+      })}
     >
       <>
         <Tab.Screen

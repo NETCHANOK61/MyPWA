@@ -69,7 +69,8 @@ export const setReceiveRepairDetail = (key, props) => {
         .then(async res => {
           //console.log('==========>', res);
           dispatch(setStateReceiveRepairDetailSuccess(res.data));
-          props.navigation.navigate('RecevieRepairScreen');
+          // props.navigation.navigate('RecevieRepairScreen');
+          props.navigation.navigate('DetailReceiveScreen');
         })
         .catch(error => {
           console.log(error);
