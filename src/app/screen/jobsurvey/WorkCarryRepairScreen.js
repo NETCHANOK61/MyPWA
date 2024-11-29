@@ -1367,6 +1367,7 @@ export default function WorkCarryRepairScreen(props) {
                 <Text style={textsty.text_normal_bold}>ผู้ซ่อม</Text>
                 <VStack alignItems="center" space={4}>
                   <Select
+                    key={'select1'}
                     selectedValue={pickerdVal.empoyees}
                     width="100%"
                     boxSize={0.035 * viewportHeight}
@@ -1389,7 +1390,7 @@ export default function WorkCarryRepairScreen(props) {
                       endIcon: <CheckIcon size={4} />,
                     }}>
                     {props.empoyees.map((val, index) => (
-                      <Select.Item label={val.label} value={val.value} />
+                      <Select.Item key={index} label={val.label} value={val.value} />
                     ))}
                   </Select>
                 </VStack>
@@ -1412,6 +1413,7 @@ export default function WorkCarryRepairScreen(props) {
                 </HStack>
                 <VStack alignItems="center" space={4}>
                   <Select
+                    key={'select2'}
                     selectedValue={pickerdVal.leakwound}
                     width="100%"
                     boxSize={0.035 * viewportHeight}
@@ -1434,7 +1436,7 @@ export default function WorkCarryRepairScreen(props) {
                       endIcon: <CheckIcon size={4} />,
                     }}>
                     {props.getLeakwounds.map((val, index) => (
-                      <Select.Item label={val.label} value={val.value} />
+                      <Select.Item key={index} label={val.label} value={val.value} />
                     ))}
                   </Select>
                 </VStack>
@@ -1459,6 +1461,7 @@ export default function WorkCarryRepairScreen(props) {
                   <View style={{ flex: 2, marginRight: 5 }}>
                     <VStack alignItems="center" space={4}>
                       <Select
+                        key={'select3'}
                         selectedValue={pickerdVal.tpyofpipes}
                         width="100%"
                         _ios={{ boxSize: 0.04 * viewportHeight }}
@@ -1481,7 +1484,7 @@ export default function WorkCarryRepairScreen(props) {
                           endIcon: <CheckIcon size={4} />,
                         }}>
                         {props.getTypeOfPipes.map((val, index) => (
-                          <Select.Item label={val.label} value={val.value} />
+                          <Select.Item key={index}  label={val.label} value={val.value} />
                         ))}
                       </Select>
                     </VStack>
@@ -1490,6 +1493,7 @@ export default function WorkCarryRepairScreen(props) {
                   <View style={{ flex: 1 }}>
                     <VStack alignItems="center" space={4}>
                       <Select
+                        key={'select4'}
                         selectedValue={pickerdVal.sizeofpipes}
                         width="100%"
                         _ios={{ boxSize: 0.04 * viewportHeight }}
@@ -1512,7 +1516,7 @@ export default function WorkCarryRepairScreen(props) {
                           endIcon: <CheckIcon size={4} />,
                         }}>
                         {arrPipeSize.map((val, index) => (
-                          <Select.Item label={val} value={val} />
+                          <Select.Item key={index} label={val} value={val} />
                         ))}
                       </Select>
                     </VStack>
@@ -1533,6 +1537,7 @@ export default function WorkCarryRepairScreen(props) {
                 <View style={{ flexDirection: 'column' }}>
                   <VStack alignItems="center" space={4}>
                     <Select
+                      key={'select5'}
                       selectedValue={pickerdVal.processpipes}
                       width="100%"
                       _ios={{ boxSize: 0.04 * viewportHeight }}
@@ -1555,7 +1560,7 @@ export default function WorkCarryRepairScreen(props) {
                         endIcon: <CheckIcon size={4} />,
                       }}>
                       {arrProcessGIS.map((val, index) => (
-                        <Select.Item label={val.label} value={val.value} />
+                        <Select.Item key={index} label={val.label} value={val.value} />
                       ))}
                     </Select>
                   </VStack>
@@ -1587,6 +1592,7 @@ export default function WorkCarryRepairScreen(props) {
                 <Text style={textsty.text_normal_bold}>ลักษณะพื้นผิว</Text>
                 <VStack alignItems="center" space={4}>
                   <Select
+                    key={'select6'}
                     selectedValue={pickerdVal.serfaces}
                     width="100%"
                     _ios={{ boxSize: 0.04 * viewportHeight }}
@@ -1608,7 +1614,7 @@ export default function WorkCarryRepairScreen(props) {
                       endIcon: <CheckIcon size={4} />,
                     }}>
                     {props.getSerfaces.map((val, index) => (
-                      <Select.Item label={val.label} value={val.value} />
+                      <Select.Item key={index} label={val.label} value={val.value} />
                     ))}
                   </Select>
                 </VStack>

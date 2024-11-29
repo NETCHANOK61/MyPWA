@@ -15,9 +15,9 @@ import RepairJobScreen from "../screen/receiverepair/RepairJobScreen";
 import WorkRepairScreen from "../screen/workrepair/WorkRepairScreen";
 import ReceiveRepairSearchScreen from "../screen/repairfilter/RepairFilterScreen";
 import ProfileScreen from "../screen/profile/ProfileScreen";
-import WorkTakePhotoScreen from '../screen/jobsurvey/WorkTakePhotoScreen';
-import camara from '../screen/camera/index';
-import location from '../components/location/Location';
+import WorkTakePhotoScreen from "../screen/jobsurvey/WorkTakePhotoScreen";
+import camara from "../screen/camera/index";
+import location from "../components/location/Location";
 // import savelocation from '../screen/jobsurvey/SaveLocationPointNormal/index';
 
 import mainTabScreen from "../screen/jobsurvey/MainTabScreen";
@@ -114,7 +114,7 @@ const ReceiveRepairStackScreen = ({ navigation, route }) => {
     } else {
       navigation.setOptions({ tabBarVisible: true });
     }
-  }, [route.state?.index, navigation]); 
+  }, [route.state?.index, navigation]);
 
   return (
     <StackReciveRepair.Navigator>
@@ -134,7 +134,9 @@ const ReceiveRepairStackScreen = ({ navigation, route }) => {
             <TouchableOpacity
               activeOpacity={0.1}
               onPress={async () => {
-                navigation.navigate("ReceiveRepair", {screen:"ReceiveRepairSearchScreen"})
+                navigation.navigate("ReceiveRepair", {
+                  screen: "ReceiveRepairSearchScreen",
+                });
                 // dispatch(repairFilterAction.inncidentSearch(navigation));
               }}
               style={{ padding: 10 }}
@@ -279,8 +281,8 @@ const WorkRepairStackScreen = ({ navigation, route }) => {
     } else {
       navigation.setOptions({ tabBarVisible: true });
     }
-  }, [route.state?.index, navigation]); 
-  
+  }, [route.state?.index, navigation]);
+
   return (
     <StackWorkRepair.Navigator>
       <StackWorkRepair.Screen
@@ -302,7 +304,9 @@ const WorkRepairStackScreen = ({ navigation, route }) => {
                 // navigation.navigate("WorkRepairStackScreen", {
                 //   screen: "ReceiveRepairSearchScreen2",
                 // });
-                navigation.navigate("WorkRepair", {screen:"ReceiveRepairSearchScreen2"})
+                navigation.navigate("WorkRepair", {
+                  screen: "ReceiveRepairSearchScreen2",
+                });
               }}
               style={{ padding: 10 }}
             >
@@ -400,50 +404,50 @@ const SuccessTab = () => {
 
 const StackJobSurvey = createStackNavigator();
 const MyTab = ({ navigation, route }) => {
-  if (route.state == undefined || route.state.index == 0) {
-    navigation.setOptions({
-      title: route.params.rwcode,
-      headerTitleStyle: { color: "#2c689e", fontFamily: "Prompt-Bold" },
-      headerTitleAlign: "center",
-      headerShown: true,
-      headerBackTitle: " ",
-      headerLeft: () => (
-        <TouchableOpacity
-          activeOpacity={0.1}
-          onPress={() => {
-            if (route.params.page == "1") {
-              navigation.navigate("Success2");
-              navigation.jumpTo("WorkRepair", {
-                owner: "WorkRepair",
-              });
-            } else {
-              navigation.goBack();
-              navigation.jumpTo("WorkRepair", {
-                owner: "WorkRepair",
-              });
-            }
-          }}
-          style={{ padding: 10 }}
-        >
-          <MaterialIcons
-            name="arrow-back-ios"
-            size={20}
-            color="#2c689e"
-            style={{
-              height: 24,
-              width: 24,
+  useEffect(() => {
+    if (route.state == undefined || route.state.index == 0) {
+      navigation.setOptions({
+        title: route.params.rwcode,
+        headerTitleStyle: { color: "#2c689e", fontFamily: "Prompt-Bold" },
+        headerTitleAlign: "center",
+        headerLeft: () => (
+          <TouchableOpacity
+            activeOpacity={0.1}
+            onPress={() => {
+              if (route.params.page == "1") {
+                navigation.navigate("Success2");
+                navigation.jumpTo("WorkRepair", {
+                  owner: "WorkRepair",
+                });
+              } else {
+                navigation.goBack();
+                navigation.jumpTo("WorkRepair", {
+                  owner: "WorkRepair",
+                });
+              }
             }}
-          />
-        </TouchableOpacity>
-      ),
-    });
-  } else {
-    navigation.setOptions({
-      title: "",
-      headerShown: false,
-      headerBackTitle: " ",
-    });
-  }
+            style={{ padding: 10 }}
+          >
+            <MaterialIcons
+              name="arrow-back-ios"
+              size={20}
+              color="#2c689e"
+              style={{
+                height: 24,
+                width: 24,
+              }}
+            />
+          </TouchableOpacity>
+        ),
+      });
+    } else {
+      navigation.setOptions({
+        title: "",
+        headerShown: false,
+        headerBackTitle: " ",
+      });
+    }
+  }, [route, navigation]);
 
   return (
     <StackJobSurvey.Navigator
