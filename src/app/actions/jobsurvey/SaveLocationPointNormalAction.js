@@ -86,7 +86,7 @@ const saveLocationCapture = async _obj => {
   await serviveAxios('POST', _obj, url.capturePoi)
     .then(res => {
       //console.log('saveLocationCapture : ', res);
-      console.log('saveLocationCapture : ', 'Save Location Capture Success');
+      // console.log('saveLocationCapture : ', 'Save Location Capture Success');
     })
     .catch(error => {
       console.log(error);
