@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   View,
@@ -31,7 +31,20 @@ import {
 } from "../../utils/permissionsDevice";
 import DropDownPicker from "react-native-dropdown-picker";
 
-export default function DetailWorkCallScreen(props) {
+export default function DetailWorkCallScreen({props, navigation}) {
+
+  useLayoutEffect(() => {
+    navigation.getParent().setOptions({
+      tabBarStyle: { display: 'none' },
+    });
+  
+    return () => {
+      navigation.getParent().setOptions({
+        tabBarStyle: { display: 'flex' },
+      });
+    };
+  }, [navigation]);
+  
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
 

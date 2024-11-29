@@ -72,7 +72,7 @@ export const login = (
         })
         .catch(error => {
           hideLoading();
-          console.log("e->", error.response)
+          // console.log("e->", error.response)
           if (error.response.status == 400) {
             setTimeout(() => {
               showalert('ALERT_LOGIN_FAILED');

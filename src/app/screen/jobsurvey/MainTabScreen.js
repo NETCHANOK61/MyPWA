@@ -1,36 +1,48 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { View, Dimensions, Text, StyleSheet, StatusBar } from 'react-native';
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-import WorkRepairDetailScreen from './WorkRepairDetailScreen';
-import WorkCarryRepairScreen from './WorkCarryRepairScreen';
-import WorkSurveyScreen from './WorkSurveyScreen';
-import BottomTab from '../../components/bottom/BottomTab';
-import { timeNow, dateNowTh } from '../../utils/Date';
-import * as workCarryRepairAction from '../../actions/jobsurvey/WorkCarryRepairAction';
-import * as WorkRepairDetailAction from '../../actions/workrepair/WorkRepairDetailAction';
+import React, { useEffect, useLayoutEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { View, Dimensions, Text, StyleSheet, StatusBar } from "react-native";
+import { TabView, SceneMap, TabBar } from "react-native-tab-view";
+import WorkRepairDetailScreen from "./WorkRepairDetailScreen";
+import WorkCarryRepairScreen from "./WorkCarryRepairScreen";
+import WorkSurveyScreen from "./WorkSurveyScreen";
+import BottomTab from "../../components/bottom/BottomTab";
+import { timeNow, dateNowTh } from "../../utils/Date";
+import * as workCarryRepairAction from "../../actions/jobsurvey/WorkCarryRepairAction";
+import * as WorkRepairDetailAction from "../../actions/workrepair/WorkRepairDetailAction";
 
-export default function MainTabScreen(props) {
+export default function MainTabScreen({ props, navigation }) {
+  useLayoutEffect(() => {
+    navigation.getParent().setOptions({
+      tabBarStyle: { display: "none" },
+    });
+
+    return () => {
+      navigation.getParent().setOptions({
+        tabBarStyle: { display: "flex" },
+      });
+    };
+  }, [navigation]);
   const dispatch = useDispatch();
   const workCarrayRepairReducer = useSelector(
-    state => state.workCarrayRepairReducer,
+    (state) => state.workCarrayRepairReducer
   );
   const workRepairDetailReducer = useSelector(
-    state => state.workRepairDetailReducer,
+    (state) => state.workRepairDetailReducer
   );
 
-  const initialLayout = { width: Dimensions.get('window').width };
+  const initialLayout = { width: Dimensions.get("window").width };
   const [index, setIndex] = React.useState(0);
 
   const init = () => {
-    let brokenAppearanceText = '';
+    let brokenAppearanceText = "";
     if (workRepairDetailReducer.dataArray.process != null) {
-      brokenAppearanceText = workRepairDetailReducer.dataArray.process.brokenAppearance;
+      brokenAppearanceText =
+        workRepairDetailReducer.dataArray.process.brokenAppearance;
     }
     dispatch(workCarryRepairAction.loadPiker(brokenAppearanceText));
     reMemViewWorkCarryRepair();
-    return () => { };
-  }
+    return () => {};
+  };
   useEffect(() => {
     init();
   }, []);
@@ -38,17 +50,17 @@ export default function MainTabScreen(props) {
   const reMemViewWorkCarryRepair = () => {
     if (workRepairDetailReducer.dataArray.process != null) {
       if (workRepairDetailReducer.dataArray.survey.pipe_id == "") {
-        if(workRepairDetailReducer.dataArray.process.isNotGIS != null){
-          dispatch(WorkRepairDetailAction.setStateRadioPipe('2'));
+        if (workRepairDetailReducer.dataArray.process.isNotGIS != null) {
+          dispatch(WorkRepairDetailAction.setStateRadioPipe("2"));
         }
       } else {
-        dispatch(WorkRepairDetailAction.setStateRadioPipe('1'));
-      };
-    }else{
-      dispatch(WorkRepairDetailAction.setStateRadioPipe('0'));
+        dispatch(WorkRepairDetailAction.setStateRadioPipe("1"));
+      }
+    } else {
+      dispatch(WorkRepairDetailAction.setStateRadioPipe("0"));
     }
     const obj = {
-      sts: '1',
+      sts: "1",
       dateForm: dateNowTh(),
       dateTo: dateNowTh(),
       dateTextTure: dateNowTh(),
@@ -60,9 +72,9 @@ export default function MainTabScreen(props) {
   };
 
   const [routes] = React.useState([
-    { key: 'workrepairdetail', title: 'รายละเอียดงาน' },
-    { key: 'worksurvey', title: 'จุดซ่อมเเละ\nภาพงานซ่อม' },
-    { key: 'workCarryRepair', title: 'ดำเนินการซ่อม' },
+    { key: "workrepairdetail", title: "รายละเอียดงาน" },
+    { key: "worksurvey", title: "จุดซ่อมเเละ\nภาพงานซ่อม" },
+    { key: "workCarryRepair", title: "ดำเนินการซ่อม" },
   ]);
 
   const empoyees = () => {
@@ -82,7 +94,8 @@ export default function MainTabScreen(props) {
   const getLeakwounds = () => {
     var arrr1 = [];
     if (workCarrayRepairReducer.dataObject != null) {
-      for (const iterator of workCarrayRepairReducer.dataObject.getLeakWounds.data) {
+      for (const iterator of workCarrayRepairReducer.dataObject.getLeakWounds
+        .data) {
         let obj = {
           label: iterator.text,
           value: iterator.value,
@@ -91,7 +104,7 @@ export default function MainTabScreen(props) {
       }
     }
     return arrr1;
-  }
+  };
 
   const getSerfaces = () => {
     var arrr1 = [];
@@ -176,27 +189,28 @@ export default function MainTabScreen(props) {
     ),
   });
 
-  const switchTab = idTab => {
+  const switchTab = (idTab) => {
     setIndex(idTab);
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'white' }}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       <TabView
         navigationState={{ index, routes }}
-        renderTabBar={props => (
+        renderTabBar={(props) => (
           <TabBar
             {...props}
             renderLabel={({ route }) => (
               <Text
                 style={{
-                  fontFamily: 'Prompt-Regular',
-                  textAlign: 'center',
-                }}>
+                  fontFamily: "Prompt-Regular",
+                  textAlign: "center",
+                }}
+              >
                 {route.title}
               </Text>
             )}
-            indicatorStyle={{ backgroundColor: '#3a405a' }}
+            indicatorStyle={{ backgroundColor: "#3a405a" }}
           />
         )}
         renderScene={renderScene}
