@@ -325,7 +325,7 @@ export default function WorkTakePhotoScreen(props) {
           setVisibleAlert(false);
           setTimeout(() => {
             setVisibleLoading(true);
-            // handleSaveImages();
+            handleSaveImages();
           }, 500);
         },
         () => {
