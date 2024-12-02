@@ -1,6 +1,6 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { View, Dimensions, Text, StyleSheet, StatusBar } from "react-native";
+import { View, Dimensions, Text, StyleSheet, SafeAreaView } from "react-native";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import WorkRepairDetailScreen from "./WorkRepairDetailScreen";
 import WorkCarryRepairScreen from "./WorkCarryRepairScreen";
@@ -11,17 +11,6 @@ import * as workCarryRepairAction from "../../actions/jobsurvey/WorkCarryRepairA
 import * as WorkRepairDetailAction from "../../actions/workrepair/WorkRepairDetailAction";
 
 export default function MainTabScreen({ props, navigation }) {
-  useLayoutEffect(() => {
-    navigation.getParent().setOptions({
-      tabBarStyle: { display: "none" },
-    });
-
-    return () => {
-      navigation.getParent().setOptions({
-        tabBarStyle: { display: "flex" },
-      });
-    };
-  }, [navigation]);
   const dispatch = useDispatch();
   const workCarrayRepairReducer = useSelector(
     (state) => state.workCarrayRepairReducer
@@ -218,7 +207,9 @@ export default function MainTabScreen({ props, navigation }) {
         initialLayout={initialLayout}
         style={styles.container}
       />
-      <BottomTab tab={index} switchTab={switchTab} />
+      <SafeAreaView>
+        <BottomTab tab={index} switchTab={switchTab} />
+      </SafeAreaView>
     </View>
   );
 }

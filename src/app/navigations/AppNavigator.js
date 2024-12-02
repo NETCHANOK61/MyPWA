@@ -117,7 +117,7 @@ const ReceiveRepairStackScreen = ({ navigation, route }) => {
   }, [route.state?.index, navigation]);
 
   return (
-    <StackReciveRepair.Navigator>
+    <StackReciveRepair.Navigator initialRouteName="ReceiveRepairScreen">
       <StackReciveRepair.Screen
         name="ReceiveRepairScreen"
         component={ReceiveRepairScreen}
@@ -152,7 +152,7 @@ const ReceiveRepairStackScreen = ({ navigation, route }) => {
       />
       <StackReciveRepair.Screen
         // name="RecevieRepairScreen"
-        name="DetailReceiveScreens"
+        name="DetailReceiveScreen"
         component={DetailWorkCallScreen}
         options={{
           title: "รายละเอียดงานรับเเจ้ง",
@@ -285,7 +285,7 @@ const WorkRepairStackScreen = ({ navigation, route }) => {
   }, [route.state?.index, navigation]);
 
   return (
-    <StackWorkRepair.Navigator>
+    <StackWorkRepair.Navigator initialRouteName="workrepairscreen">
       <StackWorkRepair.Screen
         name="workrepairscreen"
         component={WorkRepairScreen}
@@ -379,12 +379,8 @@ const SuccessTab = ({ navigation, route }) => {
         style: { backgroundColor: "white" },
       }}
       screenOptions={({ route }) => ({
-        // tabBarStyle: route.name === 'ReceiveRepair' ? { display: 'flex' } : { display: 'none' },
         headerShown: false,
       })}
-      // screenOptions={{
-      //   headerShown: false,
-      // }}
     >
       <>
         <Tab.Screen
@@ -422,15 +418,16 @@ const MyTab = ({ navigation, route }) => {
             activeOpacity={0.1}
             onPress={() => {
               if (route.params.page == "1") {
-                navigation.navigate("Success2");
-                navigation.jumpTo("WorkRepair", {
-                  owner: "WorkRepair",
-                });
+                navigation.goBack();
+                // navigation.navigate("WorkRepair");
+                // navigation.jumpTo("WorkRepair", {
+                //   owner: "WorkRepair",
+                // });
               } else {
                 navigation.goBack();
-                navigation.jumpTo("WorkRepair", {
-                  owner: "WorkRepair",
-                });
+                // navigation.jumpTo("WorkRepair", {
+                //   owner: "WorkRepair",
+                // });
               }
             }}
             style={{ padding: 10 }}

@@ -839,6 +839,7 @@ export default function DetailWorkCallScreen({props, navigation}) {
   return (
     <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
       <ScrollView>{ListData()}</ScrollView>
+      <SafeAreaView>
       <ButtonGroup
         onPress={(bind) => {
           openOverlay(bind);
@@ -848,8 +849,8 @@ export default function DetailWorkCallScreen({props, navigation}) {
         containerStyle={detailWorkCallStyle.buttonGroup}
         innerBorderStyle={{ color: "#3a405a" }}
       >
-        <SafeAreaView />
       </ButtonGroup>
+      </SafeAreaView>
       <View>
         <Overlay
           isVisible={visible}
