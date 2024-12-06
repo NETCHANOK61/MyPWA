@@ -31,20 +31,19 @@ import {
 } from "../../utils/permissionsDevice";
 import DropDownPicker from "react-native-dropdown-picker";
 
-export default function DetailWorkCallScreen({props, navigation}) {
+export default function DetailWorkCallScreen({ props, navigation }) {
+  // useLayoutEffect(() => {
+  //   navigation.getParent().setOptions({
+  //     tabBarStyle: { display: "none" },
+  //   });
 
-  useLayoutEffect(() => {
-    navigation.getParent().setOptions({
-      tabBarStyle: { display: 'none' },
-    });
-  
-    return () => {
-      navigation.getParent().setOptions({
-        tabBarStyle: { display: 'flex' },
-      });
-    };
-  }, [navigation]);
-  
+  //   return () => {
+  //     navigation.getParent().setOptions({
+  //       tabBarStyle: { display: "flex" },
+  //     });
+  //   };
+  // }, [navigation]);
+
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
 
@@ -840,16 +839,15 @@ export default function DetailWorkCallScreen({props, navigation}) {
     <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
       <ScrollView>{ListData()}</ScrollView>
       <SafeAreaView>
-      <ButtonGroup
-        onPress={(bind) => {
-          openOverlay(bind);
-        }}
-        selectedIndex={selectedIndex}
-        buttons={buttons}
-        containerStyle={detailWorkCallStyle.buttonGroup}
-        innerBorderStyle={{ color: "#3a405a" }}
-      >
-      </ButtonGroup>
+        <ButtonGroup
+          onPress={(bind) => {
+            openOverlay(bind);
+          }}
+          selectedIndex={selectedIndex}
+          buttons={buttons}
+          containerStyle={detailWorkCallStyle.buttonGroup}
+          innerBorderStyle={{ color: "#3a405a" }}
+        ></ButtonGroup>
       </SafeAreaView>
       <View>
         <Overlay
@@ -966,8 +964,8 @@ export default function DetailWorkCallScreen({props, navigation}) {
                   setVisible(false);
                   setSelectedIndex(0);
                   setRemark("");
-                  setReason(null)
-                  setOpen(false)
+                  setReason(null);
+                  setOpen(false);
                 }}
               >
                 <Text style={[textsty.text_normal_regular, { color: "white" }]}>

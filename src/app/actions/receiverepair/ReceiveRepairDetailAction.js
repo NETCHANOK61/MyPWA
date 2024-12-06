@@ -115,15 +115,18 @@ export const createRepairWork = (info, account_id, props, alert) => {
           dispatch(setStateCreateReceiveRepairSuccess(res.data));
           await callServive(url.GetRepairWorkByID + '/' + res.data.rwId)
             .then(async res => {
+              console.log("OK");
               dispatch(setStateGetRepairWorkByIdSuccess(res));
               alert('ALERT_ACCEPT_SUCCESS', res.rwCode);
             })
             .catch(error => {
+              console.log("Error 1", error);
               alert('ALERT_INSERT_FAILED', '');
               dispatch(setStateGetRepairWorkByIdFailed());
             });
         })
         .catch(error => {
+          console.log("Error 2", error);
           alert('ALERT_ACCEPT_FAILED', error.response.data);
         });
     } catch (error) {
