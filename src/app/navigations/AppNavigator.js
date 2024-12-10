@@ -109,33 +109,6 @@ const StackReciveRepair = createStackNavigator();
 const ReceiveRepairStackScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (route.state && route.state.index > 0) {
-  //     navigation.setOptions({ tabBarVisible: false });
-  //   } else {
-  //     navigation.setOptions({ tabBarVisible: true });
-  //   }
-  // }, [route.state?.index, navigation]);
-
-  // useEffect(() => {
-  //   const state = navigation.getState();
-  //   console.log("ReceiveRepairStackScreen", state);
-  //   if (
-  //     state.routes[state.index].state &&
-  //     state.routes[state.index].state.index > 0
-  //   ) {
-  //     console.log("false");
-  //     navigation.setOptions({
-  //       tabBarStyle: { display: "none" }, // ซ่อน tab bar
-  //     });
-  //   } else {
-  //     console.log("true");
-  //     navigation.setOptions({
-  //       tabBarStyle: { display: "flex" }, // ซ่อน tab bar
-  //     });
-  //   }
-  // }, [route, navigation]);
-
   return (
     <StackReciveRepair.Navigator initialRouteName="ReceiveRepairScreen">
       <StackReciveRepair.Screen
@@ -296,33 +269,6 @@ const ReceiveRepairStackScreen = ({ navigation, route }) => {
 const StackWorkRepair = createStackNavigator();
 
 const WorkRepairStackScreen = ({ navigation, route }) => {
-  // useEffect(() => {
-  //   if (route.state && route.state.index > 0) {
-  //     navigation.setOptions({ tabBarVisible: false });
-  //   } else {
-  //     navigation.setOptions({ tabBarVisible: true });
-  //   }
-  // }, [route.state?.index, navigation]);
-
-  useEffect(() => {
-    const state = navigation.getState();
-    console.log("StackWorkRepair", state);
-    if (
-      state.routes[state.index].state &&
-      state.routes[state.index].state.index > 0
-    ) {
-      console.log("false");
-      navigation.setOptions({
-        tabBarStyle: { display: "none" }, // ซ่อน tab bar
-      });
-    } else {
-      console.log("true");
-      navigation.setOptions({
-        tabBarStyle: { display: "flex" }, // ซ่อน tab bar
-      });
-    }
-  }, [route, navigation]);
-
   return (
     <StackWorkRepair.Navigator initialRouteName="workrepairscreen">
       <StackWorkRepair.Screen
@@ -439,7 +385,9 @@ const SuccessTab = ({ navigation, route }) => {
   console.log("Final Current Route Name:", routeName); // ตรวจสอบ route ที่ลึกที่สุด
   const shouldHideTabBar =
     routeName === "DetailReceiveScreen" ||
-    routeName === "ReceiveRepairSearchScreen";
+    routeName === "ReceiveRepairSearchScreen" ||
+    routeName === "ReceiveRepairSearchScreen2" ||
+    routeName === "workrepairtabscreen";
   return (
     <Tab.Navigator
       backBehavior="none"
@@ -528,7 +476,6 @@ const MyTab = ({ navigation, route }) => {
 
     const currentRoute = state.routes[state.index];
     const isRoot = !currentRoute.state || currentRoute.state.index === 0;
-    console.log(isRoot);
 
     if (isRoot) {
       navigation.setOptions({
