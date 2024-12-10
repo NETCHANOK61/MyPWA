@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { TouchableOpacity, Platform, Dimensions } from "react-native";
-import { useNavigationState } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -109,35 +108,24 @@ const StackReciveRepair = createStackNavigator();
 const ReceiveRepairStackScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (route.state && route.state.index > 0) {
-  //     navigation.setOptions({ tabBarVisible: false });
-  //   } else {
-  //     navigation.setOptions({ tabBarVisible: true });
-  //   }
-  // }, [route.state?.index, navigation]);
-
-  // useEffect(() => {
-  //   const state = navigation.getState();
-  //   console.log("ReceiveRepairStackScreen", state);
-  //   if (
-  //     state.routes[state.index].state &&
-  //     state.routes[state.index].state.index > 0
-  //   ) {
-  //     console.log("false");
-  //     navigation.setOptions({
-  //       tabBarStyle: { display: "none" }, // ซ่อน tab bar
-  //     });
-  //   } else {
-  //     console.log("true");
-  //     navigation.setOptions({
-  //       tabBarStyle: { display: "flex" }, // ซ่อน tab bar
-  //     });
-  //   }
-  // }, [route, navigation]);
+  useEffect(() => {
+    if (route.state && route.state.index > 0) {
+      navigation.setOptions({ tabBarVisible: false });
+    } else {
+      navigation.setOptions({ tabBarVisible: true });
+    }
+  }, [route.state?.index, navigation]);
 
   return (
-    <StackReciveRepair.Navigator initialRouteName="ReceiveRepairScreen">
+    <StackReciveRepair.Navigator
+      screenOptions={({ route }) => (
+        {
+        tabBarStyle:
+          route.name === "workrepairtabscreen"
+            ? { display: "none" }
+            : { display: "flex" },
+      })}
+    >
       <StackReciveRepair.Screen
         name="ReceiveRepairScreen"
         component={ReceiveRepairScreen}
@@ -171,7 +159,6 @@ const ReceiveRepairStackScreen = ({ navigation, route }) => {
         }}
       />
       <StackReciveRepair.Screen
-        // name="RecevieRepairScreen"
         name="DetailReceiveScreen"
         component={DetailWorkCallScreen}
         options={{
@@ -296,35 +283,16 @@ const ReceiveRepairStackScreen = ({ navigation, route }) => {
 const StackWorkRepair = createStackNavigator();
 
 const WorkRepairStackScreen = ({ navigation, route }) => {
-  // useEffect(() => {
-  //   if (route.state && route.state.index > 0) {
-  //     navigation.setOptions({ tabBarVisible: false });
-  //   } else {
-  //     navigation.setOptions({ tabBarVisible: true });
-  //   }
-  // }, [route.state?.index, navigation]);
-
   useEffect(() => {
-    const state = navigation.getState();
-    console.log("StackWorkRepair", state);
-    if (
-      state.routes[state.index].state &&
-      state.routes[state.index].state.index > 0
-    ) {
-      console.log("false");
-      navigation.setOptions({
-        tabBarStyle: { display: "none" }, // ซ่อน tab bar
-      });
+    if (route.state && route.state.index > 0) {
+      navigation.setOptions({ tabBarVisible: false });
     } else {
-      console.log("true");
-      navigation.setOptions({
-        tabBarStyle: { display: "flex" }, // ซ่อน tab bar
-      });
+      navigation.setOptions({ tabBarVisible: true });
     }
-  }, [route, navigation]);
+  }, [route.state?.index, navigation]);
 
   return (
-    <StackWorkRepair.Navigator initialRouteName="workrepairscreen">
+    <StackWorkRepair.Navigator>
       <StackWorkRepair.Screen
         name="workrepairscreen"
         component={WorkRepairScreen}
@@ -409,37 +377,7 @@ const ProfileStackScreen = ({ navigation, route }) => {
   );
 };
 
-const SuccessTab = ({ navigation, route }) => {
-  const routeName = useNavigationState((state) => {
-    const currentRoute = state.routes[state.index];
-
-    if (currentRoute.state) {
-      const tabState = currentRoute.state;
-      const tabRoute = tabState.routes[tabState.index];
-
-      if (tabRoute.state) {
-        const stackState = tabRoute.state;
-        const stackRoute = stackState.routes[stackState.index];
-
-        if (stackRoute.state) {
-          const nestedState = stackRoute.state;
-          const nestedRoute = nestedState.routes[nestedState.index];
-          return nestedRoute.name; // Route ที่ลึกที่สุด
-        }
-
-        return stackRoute.name;
-      }
-
-      return tabRoute.name;
-    }
-
-    return currentRoute.name;
-  });
-
-  console.log("Final Current Route Name:", routeName); // ตรวจสอบ route ที่ลึกที่สุด
-  const shouldHideTabBar =
-    routeName === "DetailReceiveScreen" ||
-    routeName === "ReceiveRepairSearchScreen";
+const SuccessTab = () => {
   return (
     <Tab.Navigator
       backBehavior="none"
@@ -449,7 +387,6 @@ const SuccessTab = ({ navigation, route }) => {
       }}
       screenOptions={{
         headerShown: false,
-        tabBarStyle: shouldHideTabBar ? { display: "none" } : null,
       }}
     >
       <>
@@ -475,80 +412,22 @@ const SuccessTab = ({ navigation, route }) => {
 
 const StackJobSurvey = createStackNavigator();
 const MyTab = ({ navigation, route }) => {
-  // useEffect(() => {
-  //   if (route.state == undefined || route.state.index == 0) {
-  //     navigation.setOptions({
-  //       title: route.params.rwcode,
-  //       headerTitleStyle: { color: "#2c689e", fontFamily: "Prompt-Bold" },
-  //       headerTitleAlign: "center",
-  //       headerShown: true,
-  //       headerBackTitle: " ",
-  //       headerLeft: () => (
-  //         <TouchableOpacity
-  //           activeOpacity={0.1}
-  //           onPress={() => {
-  //             if (route.params.page == "1") {
-  //               navigation.goBack();
-  //               // navigation.navigate("WorkRepair");
-  //               // navigation.jumpTo("WorkRepair", {
-  //               //   owner: "WorkRepair",
-  //               // });
-  //             } else {
-  //               navigation.goBack();
-  //               // navigation.jumpTo("WorkRepair", {
-  //               //   owner: "WorkRepair",
-  //               // });
-  //             }
-  //           }}
-  //           style={{ padding: 10 }}
-  //         >
-  //           <MaterialIcons
-  //             name="arrow-back-ios"
-  //             size={20}
-  //             color="#2c689e"
-  //             style={{
-  //               height: 24,
-  //               width: 24,
-  //             }}
-  //           />
-  //         </TouchableOpacity>
-  //       ),
-  //     });
-  //   } else {
-  //     navigation.setOptions({
-  //       title: "",
-  //       headerShown: false,
-  //       headerBackTitle: " ",
-  //     });
-  //   }
-  // }, [route, navigation]);
-
   useEffect(() => {
-    const state = navigation.getState();
-
-    const currentRoute = state.routes[state.index];
-    const isRoot = !currentRoute.state || currentRoute.state.index === 0;
-    console.log(isRoot);
-
-    if (isRoot) {
+    if (route.state == undefined || route.state.index == 0) {
       navigation.setOptions({
         title: route.params.rwcode,
         headerTitleStyle: { color: "#2c689e", fontFamily: "Prompt-Bold" },
         headerTitleAlign: "center",
-        headerShown: true,
-        headerBackTitle: " ",
         headerLeft: () => (
           <TouchableOpacity
             activeOpacity={0.1}
             onPress={() => {
               if (route.params.page == "1") {
-                // navigation.goBack();
                 navigation.navigate("Success2");
                 navigation.jumpTo("WorkRepair", {
                   owner: "WorkRepair",
                 });
               } else {
-                // navigation.goBack();
                 navigation.goBack();
                 navigation.jumpTo("WorkRepair", {
                   owner: "WorkRepair",
@@ -576,7 +455,7 @@ const MyTab = ({ navigation, route }) => {
         headerBackTitle: " ",
       });
     }
-  }, [navigation, route]);
+  }, [route, navigation]);
 
   return (
     <StackJobSurvey.Navigator
