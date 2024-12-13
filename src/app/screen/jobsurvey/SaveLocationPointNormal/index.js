@@ -17,7 +17,7 @@ import * as saveLocationPointNormalAction from '../../../actions/jobsurvey/SaveL
 import { setStateRadioPipe } from '../../../actions/workrepair/WorkRepairDetailAction';
 import { checkLocationAccept, requestLocationAccept } from '../../../utils/permissionsDevice';
 
-export default function index(props) {
+export default function Savelocation(props) {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const viewShot = useRef(null);

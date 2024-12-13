@@ -43,7 +43,7 @@ export default function WorkSurveyScreen(props) {
 
   const tarGetTakePhoto = (key, files) => {
     if (key == 'point') {
-      props.navigation.navigate('savelocation', {
+      props.navigation.navigate('Savelocation', {
         rwId: workRepairDetailReducer.dataArray.rwId,
         rwCode: workRepairDetailReducer.dataArray.rwCode,
         data: props.data,

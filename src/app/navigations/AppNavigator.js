@@ -226,7 +226,7 @@ const ReceiveRepairStackScreen = ({ navigation, route }) => {
         }}
       />
       <StackReciveRepair.Screen
-        name="savelocation"
+        name="Savelocation"
         component={savelocation}
         options={{
           title: "ลงจุดซ่อม",
