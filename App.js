@@ -71,11 +71,6 @@ const App = () => {
     "Prompt-Thin": require("./assets/fonts/Prompt-Thin.ttf"),
   });
 
-  // แสดงข้อความ "Loading..." ถ้าฟอนต์ยังไม่โหลด
-  if (!fontsLoaded) {
-    return <Text>Loading...</Text>;
-  }
-
   return (
     <Provider store={store}>
       <NavigationContainer>
@@ -85,6 +80,7 @@ const App = () => {
           hidden={false}
         />
         <View style={{ flex: 1 }}>
+          {!fontsLoaded && <Text>Loading...</Text>}
           <AppNavigator showAuthen={showLogin} />
         </View>
       </NavigationContainer>
