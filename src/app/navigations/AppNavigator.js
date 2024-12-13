@@ -382,7 +382,7 @@ const SuccessTab = ({ navigation, route }) => {
     return currentRoute.name;
   });
 
-  console.log("Final Current Route Name:", routeName); // ตรวจสอบ route ที่ลึกที่สุด
+  // console.log("Final Current Route Name:", routeName); // ตรวจสอบ route ที่ลึกที่สุด
   const shouldHideTabBar =
     routeName === "DetailReceiveScreen" ||
     routeName === "ReceiveRepairSearchScreen" ||
