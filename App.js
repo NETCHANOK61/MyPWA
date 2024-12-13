@@ -38,15 +38,16 @@
 //     </Provider>
 //   );
 // }
+
 import React, { useState, useEffect } from "react";
 import { Provider } from "react-redux";
-// import AppContent from "./src/app/components/AppContent"; // ชื่อไฟล์ที่เหมาะสม
-import store from "./src/app/store/store";
-import AppNavigator from "./src/app/navigations/AppNavigator";
 import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import { View } from "react-native";
+import { View, Text } from "react-native";
+import store from "./src/app/store/store";
+import AppNavigator from "./src/app/navigations/AppNavigator";
 import { getProfile } from "./src/app/utils/Storage";
+import { useFonts } from "expo-font";
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -59,7 +60,22 @@ const App = () => {
 
   useEffect(() => {
     init();
+  }, []);
+
+  // โหลดฟอนต์
+  const [fontsLoaded] = useFonts({
+    "Prompt-Bold": require("./assets/fonts/Prompt-Bold.ttf"),
+    "Prompt-Light": require("./assets/fonts/Prompt-Light.ttf"),
+    "Prompt-Medium": require("./assets/fonts/Prompt-Medium.ttf"),
+    "Prompt-Regular": require("./assets/fonts/Prompt-Regular.ttf"),
+    "Prompt-Thin": require("./assets/fonts/Prompt-Thin.ttf"),
   });
+
+  // แสดงข้อความ "Loading..." ถ้าฟอนต์ยังไม่โหลด
+  if (!fontsLoaded) {
+    return <Text>Loading...</Text>;
+  }
+
   return (
     <Provider store={store}>
       <NavigationContainer>
