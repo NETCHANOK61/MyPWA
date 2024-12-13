@@ -19,7 +19,7 @@ import ProfileScreen from "../screen/profile/ProfileScreen";
 import WorkTakePhotoScreen from "../screen/jobsurvey/WorkTakePhotoScreen";
 import camara from "../screen/camera/index";
 import location from "../components/location/Location";
-// import savelocation from '../screen/jobsurvey/SaveLocationPointNormal/index';
+import savelocation from "../screen/jobsurvey/SaveLocationPointNormal/index";
 
 import mainTabScreen from "../screen/jobsurvey/MainTabScreen";
 
@@ -225,7 +225,7 @@ const ReceiveRepairStackScreen = ({ navigation, route }) => {
           headerTitleAlign: "center",
         }}
       />
-      {/* <StackReciveRepair.Screen
+      <StackReciveRepair.Screen
         name="savelocation"
         component={savelocation}
         options={{
@@ -238,7 +238,7 @@ const ReceiveRepairStackScreen = ({ navigation, route }) => {
           headerBackTitle: " ",
           headerTitleAlign: "center",
         }}
-      /> */}
+      />
       <StackReciveRepair.Screen
         name="changepassword2"
         component={ChangePassword}
@@ -387,7 +387,10 @@ const SuccessTab = ({ navigation, route }) => {
     routeName === "DetailReceiveScreen" ||
     routeName === "ReceiveRepairSearchScreen" ||
     routeName === "ReceiveRepairSearchScreen2" ||
-    routeName === "workrepairtabscreen";
+    routeName === "workrepairtabscreen" ||
+    routeName === "mainTabScreen" ||
+    routeName === "savelocation" ||
+    routeName === "WorkTakePhotoScreen";
   return (
     <Tab.Navigator
       backBehavior="none"
@@ -423,61 +426,34 @@ const SuccessTab = ({ navigation, route }) => {
 
 const StackJobSurvey = createStackNavigator();
 const MyTab = ({ navigation, route }) => {
-  // useEffect(() => {
-  //   if (route.state == undefined || route.state.index == 0) {
-  //     navigation.setOptions({
-  //       title: route.params.rwcode,
-  //       headerTitleStyle: { color: "#2c689e", fontFamily: "Prompt-Bold" },
-  //       headerTitleAlign: "center",
-  //       headerShown: true,
-  //       headerBackTitle: " ",
-  //       headerLeft: () => (
-  //         <TouchableOpacity
-  //           activeOpacity={0.1}
-  //           onPress={() => {
-  //             if (route.params.page == "1") {
-  //               navigation.goBack();
-  //               // navigation.navigate("WorkRepair");
-  //               // navigation.jumpTo("WorkRepair", {
-  //               //   owner: "WorkRepair",
-  //               // });
-  //             } else {
-  //               navigation.goBack();
-  //               // navigation.jumpTo("WorkRepair", {
-  //               //   owner: "WorkRepair",
-  //               // });
-  //             }
-  //           }}
-  //           style={{ padding: 10 }}
-  //         >
-  //           <MaterialIcons
-  //             name="arrow-back-ios"
-  //             size={20}
-  //             color="#2c689e"
-  //             style={{
-  //               height: 24,
-  //               width: 24,
-  //             }}
-  //           />
-  //         </TouchableOpacity>
-  //       ),
-  //     });
-  //   } else {
-  //     navigation.setOptions({
-  //       title: "",
-  //       headerShown: false,
-  //       headerBackTitle: " ",
-  //     });
-  //   }
-  // }, [route, navigation]);
+  const routeName = useNavigationState((state) => {
+    const currentRoute = state.routes[state.index];
+
+    if (currentRoute.state) {
+      const tabState = currentRoute.state;
+      const tabRoute = tabState.routes[tabState.index];
+
+      if (tabRoute.state) {
+        const stackState = tabRoute.state;
+        const stackRoute = stackState.routes[stackState.index];
+
+        if (stackRoute.state) {
+          const nestedState = stackRoute.state;
+          const nestedRoute = nestedState.routes[nestedState.index];
+          return nestedRoute.name; // Route ที่ลึกที่สุด
+        }
+
+        return stackRoute.name;
+      }
+
+      return tabRoute.name;
+    }
+
+    return currentRoute.name;
+  });
 
   useEffect(() => {
-    const state = navigation.getState();
-
-    const currentRoute = state.routes[state.index];
-    const isRoot = !currentRoute.state || currentRoute.state.index === 0;
-
-    if (isRoot) {
+    if (routeName !== "WorkTakePhotoScreen") {
       navigation.setOptions({
         title: route.params.rwcode,
         headerTitleStyle: { color: "#2c689e", fontFamily: "Prompt-Bold" },
@@ -523,7 +499,61 @@ const MyTab = ({ navigation, route }) => {
         headerBackTitle: " ",
       });
     }
-  }, [navigation, route]);
+  }, [routeName]);
+
+  // useEffect(() => {
+  //   const state = navigation.getState();
+
+  //   const currentRoute = state.routes[state.index];
+  //   const isRoot = !currentRoute.state || currentRoute.state.index === 0;
+
+  //   if (isRoot) {
+  //     navigation.setOptions({
+  //       title: route.params.rwcode,
+  //       headerTitleStyle: { color: "#2c689e", fontFamily: "Prompt-Bold" },
+  //       headerTitleAlign: "center",
+  //       headerShown: true,
+  //       headerBackTitle: " ",
+  //       headerLeft: () => (
+  //         <TouchableOpacity
+  //           activeOpacity={0.1}
+  //           onPress={() => {
+  //             if (route.params.page == "1") {
+  //               // navigation.goBack();
+  //               navigation.navigate("Success2");
+  //               navigation.jumpTo("WorkRepair", {
+  //                 owner: "WorkRepair",
+  //               });
+  //             } else {
+  //               // navigation.goBack();
+  //               navigation.goBack();
+  //               navigation.jumpTo("WorkRepair", {
+  //                 owner: "WorkRepair",
+  //               });
+  //             }
+  //           }}
+  //           style={{ padding: 10 }}
+  //         >
+  //           <MaterialIcons
+  //             name="arrow-back-ios"
+  //             size={20}
+  //             color="#2c689e"
+  //             style={{
+  //               height: 24,
+  //               width: 24,
+  //             }}
+  //           />
+  //         </TouchableOpacity>
+  //       ),
+  //     });
+  //   } else {
+  //     navigation.setOptions({
+  //       title: "",
+  //       headerShown: false,
+  //       headerBackTitle: " ",
+  //     });
+  //   }
+  // }, [navigation, route]);
 
   return (
     <StackJobSurvey.Navigator

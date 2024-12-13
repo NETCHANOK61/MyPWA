@@ -159,15 +159,17 @@ export default function MainTabScreen({ props, navigation }) {
     workrepairdetail: () => (
       <WorkRepairDetailScreen
         {...props}
+        navigation={navigation}
         data={workRepairDetailReducer.dataArray}
       />
     ),
     worksurvey: () => (
-      <WorkSurveyScreen {...props} data={workRepairDetailReducer.dataArray} />
+      <WorkSurveyScreen {...props} navigation={navigation} data={workRepairDetailReducer.dataArray} />
     ),
     workCarryRepair: () => (
       <WorkCarryRepairScreen
         {...props}
+        navigation={navigation}
         empoyees={empoyees()}
         getLeakwounds={getLeakwounds()}
         getSerfaces={getSerfaces()}
@@ -208,7 +210,7 @@ export default function MainTabScreen({ props, navigation }) {
         style={styles.container}
       />
       <SafeAreaView>
-        <BottomTab tab={index} switchTab={switchTab} />
+        <BottomTab tab={index} switchTab={switchTab} navigation={navigation} />
       </SafeAreaView>
     </View>
   );
