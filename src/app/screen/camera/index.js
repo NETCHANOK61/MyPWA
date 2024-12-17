@@ -22,6 +22,8 @@ import * as ImageManipulator from "expo-image-manipulator";
 import * as cameraAction from "../../actions/camera/CameraAction";
 import ImageResizer from "react-native-image-resizer";
 
+import styles from "./Style";
+
 export default function App(props) {
   const dispatch = useDispatch();
   const [facing, setFacing] = useState("back");
@@ -40,7 +42,7 @@ export default function App(props) {
   });
 
   const [permission, requestPermission] = useCameraPermissions();
-  const [photo, setPhoto] = useState(null);
+  // const [photo, setPhoto] = useState(null);
 
   const cameraRef = useRef(null);
 
@@ -125,7 +127,7 @@ export default function App(props) {
                   )
                 );
                 props.navigation.goBack();
-              }, 800);
+              }, 200);
             } else {
               console.error("Image resizing failed, no URI found.");
             }
@@ -165,21 +167,17 @@ export default function App(props) {
     setWhiteBalance(wbOrder[whiteBalance]);
   };
 
-  const toggleFacing = () => {
-    setType(type === "black" ? "front" : "back");
-  };
-
   const toggleFocus = () => {
     setAutoFocus(autoFocus === "on" ? "off" : "on");
   };
 
   const zoomOut = () => {
-    console.log(zoom)
+    // console.log(zoom)
     setZoom(zoom - 0.1 < 0 ? 0 : zoom - 0.1);
   };
 
   const zoomIn = () => {
-    console.log(zoom)
+    // console.log(zoom)
     setZoom(zoom + 0.1 > 1 ? 1 : zoom + 0.1);
   };
 
@@ -190,6 +188,7 @@ export default function App(props) {
         facing={facing}
         ref={cameraRef}
         flash={flash}
+        zoom={zoom}
       >
         <View
           style={{
@@ -344,38 +343,3 @@ export default function App(props) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-  },
-  message: {
-    textAlign: "center",
-    paddingBottom: 10,
-  },
-  camera: {
-    flex: 1,
-    justifyContent: "flex-end",
-  },
-  preview: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover",
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginBottom: 20,
-  },
-  button: {
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    padding: 10,
-    borderRadius: 10,
-  },
-  text: {
-    fontSize: 18,
-    color: "white",
-  },
-});

@@ -4,6 +4,35 @@ const {width: viewportWidth, height: viewportHeight} = Dimensions.get('window');
 export default {
   container: {
     flex: 1,
+    justifyContent: "center",
+  },
+    message: {
+    textAlign: "center",
+    paddingBottom: 10,
+  },
+  camera: {
+    flex: 1,
+    justifyContent: "flex-end",
+  },
+  preview: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginBottom: 20,
+  },
+  button: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    padding: 10,
+    borderRadius: 10,
+  },
+  text: {
+    fontSize: 18,
+    color: "white",
   },
   buttonTakecamera: {
     flex: 0.3,
