@@ -3,7 +3,7 @@ import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
 import React, { useState, useRef, useEffect } from "react";
 import {
   Button,
-  StyleSheet,
+  SafeAreaView,
   Text,
   TouchableOpacity,
   View,
@@ -55,7 +55,7 @@ export default function App(props) {
       comment_2: props.route.params.comment_2,
       comment_3: props.route.params.comment_3,
     }));
-    
+
     const { status } = await Camera.requestCameraPermissionsAsync();
     if (status !== "granted") {
       alert("Camera access is required to use this feature.");
@@ -182,7 +182,7 @@ export default function App(props) {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: "10%" }]}>
       <CameraView
         style={styles.camera}
         facing={facing}

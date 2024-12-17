@@ -390,7 +390,9 @@ const SuccessTab = ({ navigation, route }) => {
     routeName === "workrepairtabscreen" ||
     routeName === "mainTabScreen" ||
     routeName === "savelocation" ||
-    routeName === "WorkTakePhotoScreen";
+    routeName === "WorkTakePhotoScreen" ||
+    routeName === "location" ||
+    routeName === "camera";
   return (
     <Tab.Navigator
       backBehavior="none"
@@ -452,9 +454,24 @@ const MyTab = ({ navigation, route }) => {
     return currentRoute.name;
   });
 
+  console.log(routeName)
   useEffect(() => {
-    if (routeName !== "WorkTakePhotoScreen") {
-      navigation.setOptions({
+    // Helper function to set header options
+    const setHeaderOptions = (options) => {
+      navigation.setOptions(options);
+    };
+  
+    // Condition for "WorkTakePhotoScreen" and "camera" routes
+    const isHiddenHeader = routeName === "WorkTakePhotoScreen" || routeName === "camera";
+  
+    if (isHiddenHeader) {
+      setHeaderOptions({
+        title: "",
+        headerShown: false,
+        headerBackTitle: " ",
+      });
+    } else {
+      setHeaderOptions({
         title: route.params.rwcode,
         headerTitleStyle: { color: "#2c689e", fontFamily: "Prompt-Bold" },
         headerTitleAlign: "center",
@@ -464,18 +481,12 @@ const MyTab = ({ navigation, route }) => {
           <TouchableOpacity
             activeOpacity={0.1}
             onPress={() => {
-              if (route.params.page == "1") {
-                // navigation.goBack();
+              if (route.params.page === "1") {
                 navigation.navigate("Success2");
-                navigation.jumpTo("WorkRepair", {
-                  owner: "WorkRepair",
-                });
+                navigation.jumpTo("WorkRepair", { owner: "WorkRepair" });
               } else {
-                // navigation.goBack();
                 navigation.goBack();
-                navigation.jumpTo("WorkRepair", {
-                  owner: "WorkRepair",
-                });
+                navigation.jumpTo("WorkRepair", { owner: "WorkRepair" });
               }
             }}
             style={{ padding: 10 }}
@@ -484,23 +495,14 @@ const MyTab = ({ navigation, route }) => {
               name="arrow-back-ios"
               size={20}
               color="#2c689e"
-              style={{
-                height: 24,
-                width: 24,
-              }}
+              style={{ height: 24, width: 24 }}
             />
           </TouchableOpacity>
         ),
       });
-    } 
-    else {
-      navigation.setOptions({
-        title: "",
-        headerShown: false,
-        headerBackTitle: " ",
-      });
     }
-  }, [routeName]);
+  }, [routeName, route.params, navigation]);
+  
 
   // useEffect(() => {
   //   const state = navigation.getState();

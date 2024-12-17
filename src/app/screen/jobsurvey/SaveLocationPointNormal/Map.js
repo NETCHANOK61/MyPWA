@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Platform, BackHandler, Alert } from "react-native";
 import { WebView } from "react-native-webview";
-
-import RNGeolocation from "react-native-geolocation-service";
 import useDidMount from "../../../utils/useDidMount";
 import * as Location from "expo-location";
 

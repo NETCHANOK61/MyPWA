@@ -1,12 +1,17 @@
-const React = require('react-native');
-import {Dimensions} from 'react-native';
+import {Dimensions, StyleSheet, SafeAreaView} from 'react-native';
+
 const {width: viewportWidth, height: viewportHeight} = Dimensions.get('window');
+
 export default {
   container: {
     flex: 1,
     justifyContent: "center",
+    backgroundColor: "#fff", // Ensure the background is visible with SafeAreaView
   },
-    message: {
+  safeArea: {
+    flex: 1,
+  },
+  message: {
     textAlign: "center",
     paddingBottom: 10,
   },

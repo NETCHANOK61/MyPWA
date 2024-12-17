@@ -10,7 +10,6 @@ import {
   BackHandler,
 } from "react-native";
 import { WebView } from "react-native-webview";
-import RNGeolocation from "react-native-geolocation-service";
 import * as Location from 'expo-location';
 import {
   checkLocationAccept,
