@@ -1,75 +1,104 @@
-import React, { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
-import { View, Text, Alert, Dimensions, Platform, Linking, BackHandler } from 'react-native';
-import { WebView } from 'react-native-webview';
-import RNGeolocation from 'react-native-geolocation-service';
-import { checkLocationAccept, requestLocationAccept } from '../../utils/permissionsDevice';
-import useDidMount from '../../utils/useDidMount';
+import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
+import {
+  View,
+  Text,
+  Alert,
+  Dimensions,
+  Platform,
+  Linking,
+  BackHandler,
+} from "react-native";
+import { WebView } from "react-native-webview";
+import RNGeolocation from "react-native-geolocation-service";
+import * as Location from 'expo-location';
+import {
+  checkLocationAccept,
+  requestLocationAccept,
+} from "../../utils/permissionsDevice";
+import useDidMount from "../../utils/useDidMount";
 
 function Map(props) {
+  // console.log("Map: ", props)
+  // return
   const didMount = useDidMount();
   const myWebViewRef = useRef(null);
   const [location, setLocation] = useState({
-    location: '',
-    latitude: '',
-    longitude: '',
+    location: "",
+    latitude: "",
+    longitude: "",
   });
 
   const init = async () => {
     let checkPermissions = await checkLocationAccept();
     if (checkPermissions != true) {
       await requestLocationAccept();
-    }else{
+    } else {
       getLocation();
     }
-  }
+  };
 
   useEffect(() => {
     if (didMount) {
       init();
     }
-    const backAction = () => { return true };
+    const backAction = () => {
+      return true;
+    };
     const backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
-      backAction);
+      backAction
+    );
     return () => backHandler.remove();
   }, []);
 
   const getLocation = async () => {
-    await RNGeolocation.getCurrentPosition(
-      (position) => {
-        const latitude = toFixed(position.coords.latitude, 6);
-        const longitude = toFixed(position.coords.longitude, 6);
-
-        setLocation(_state => ({
-          ..._state,
-          location: position,
-          latitude: latitude,
-          longitude: longitude,
-        }));
-      },
-      error => {
-        console.log(error);
-      },
-      //{ enableHighAccuracy: false },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-    );
+    // RNGeolocation.getCurrentPosition(
+    //   (position) => {
+    //     const latitude = toFixed(position.coords.latitude, 6);
+    //     const longitude = toFixed(position.coords.longitude, 6);
+    //     console.log(position, latitude, longitude);
+    //     setLocation((_state) => ({
+    //       ..._state,
+    //       location: position,
+    //       latitude: latitude,
+    //       longitude: longitude,
+    //     }));
+    //   },
+    //   (error) => {
+    //     console.log(error);
+    //   },
+    //   //{ enableHighAccuracy: false },
+    //   { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    // );
+    // Get current location
+    const position = await Location.getCurrentPositionAsync({
+      accuracy: Location.Accuracy.Highest,
+    });
+    const latitude = position.coords.latitude.toFixed(6);
+    const longitude = position.coords.longitude.toFixed(6);
+    
+    setLocation({
+      latitude,
+      longitude,
+      location: position,
+    });
   };
 
-  const onWebViewMessage = event => {
+  const onWebViewMessage = (event) => {
     let objMsg = JSON.parse(event.nativeEvent.data);
     if (
-      objMsg.lat == '' ||
-      (objMsg.lat == null && objMsg.long == '') ||
+      objMsg.lat == "" ||
+      (objMsg.lat == null && objMsg.long == "") ||
       objMsg.long == null
     ) {
       Alert.alert(
-        'Warning message!',
-        'Unable to check route Due to not finding a job position.',
+        "Warning message!",
+        "Unable to check route Due to not finding a job position."
       );
     } else {
       Linking.openURL(
-        'https://www.google.com/maps?q=' + objMsg.lat + ',' + objMsg.long,
+        "https://www.google.com/maps?q=" + objMsg.lat + "," + objMsg.long
       );
     }
   };
@@ -84,14 +113,14 @@ function Map(props) {
 
   return (
     <WebView
-      originWhitelist={['*']}
+      originWhitelist={["*"]}
       ref={myWebViewRef}
       domStorageEnabled={true}
       javaScriptEnabled={true}
       scalesPageToFit
       scrollEnabled={false}
-      mixedContentMode={'always'}
-      useWebKit={Platform.OS == 'ios'}
+      mixedContentMode={"always"}
+      useWebKit={Platform.OS == "ios"}
       allowUniversalAccessFromFileURLs={true}
       source={{
         html: `
@@ -159,7 +188,9 @@ function Map(props) {
         
                 var url_ows = "http://senseinfotech.dyndns.org:3000/geoserver/IIMS/ows";
                 // var url_wms = "http://senseinfotech.dyndns.org:3000/geoserver/IIMS/wms?";
-                var url_wms = "https://gisweb1.pwa.co.th/geoserver/PG_WEBGIS/wms?&CQL_FILTER=pwa_code=${props.ww_code}";
+                var url_wms = "https://gisweb1.pwa.co.th/geoserver/PG_WEBGIS/wms?&CQL_FILTER=pwa_code=${
+                  props.ww_code
+                }";
         
                 var popup = L.popup();
                 var marker;
@@ -326,14 +357,16 @@ function Map(props) {
         'LEAK DETECTION',
         'LD A',
         '',
-        '${props.data.longtitude == undefined
+        '${
+          props.data.longtitude == undefined
             ? props.data.caseLongtitude
             : props.data.longtitude
-          }',
-        '${props.data.latitude == undefined
+        }',
+        '${
+          props.data.latitude == undefined
             ? props.data.caseLatitude
             : props.data.latitude
-          }',
+        }',
         ]];
                 for (var i = 0; i < locations.length; i++) {
                     if(locations[i][6] != '' && locations[i][5] != ''){
@@ -407,7 +440,7 @@ function Map(props) {
         </body>
         </html>
     `,
-        baseUrl: '',
+        baseUrl: "",
       }}
       onMessage={onWebViewMessage}
     />

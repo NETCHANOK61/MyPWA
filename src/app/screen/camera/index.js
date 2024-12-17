@@ -174,10 +174,12 @@ export default function App(props) {
   };
 
   const zoomOut = () => {
+    console.log(zoom)
     setZoom(zoom - 0.1 < 0 ? 0 : zoom - 0.1);
   };
 
   const zoomIn = () => {
+    console.log(zoom)
     setZoom(zoom + 0.1 > 1 ? 1 : zoom + 0.1);
   };
 
@@ -228,7 +230,7 @@ export default function App(props) {
             }}
           >
             <Ionicons
-              name="ios-flash"
+              name="flash"
               type="Ionicons"
               style={{ color: "white", fontSize: 0.06 * viewportWidth }}
             />

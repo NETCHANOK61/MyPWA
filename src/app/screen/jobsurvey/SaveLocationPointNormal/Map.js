@@ -1,47 +1,50 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Platform, BackHandler, Alert } from 'react-native';
-import { WebView } from 'react-native-webview';
+import React, { useState, useEffect, useRef } from "react";
+import { Platform, BackHandler, Alert } from "react-native";
+import { WebView } from "react-native-webview";
 
-import RNGeolocation from 'react-native-geolocation-service';
-import useDidMount from '../../../utils/useDidMount';
+import RNGeolocation from "react-native-geolocation-service";
+import useDidMount from "../../../utils/useDidMount";
+import * as Location from "expo-location";
 
 export default function Map(props) {
-
   const didMount = useDidMount();
   const webview = useRef(null);
 
   const [location, setLocation] = useState({
-    location: '',
-    latitude: '',
-    longitude: '',
+    location: "",
+    latitude: "",
+    longitude: "",
   });
 
   const [cusLocation, setCusLocation] = useState({
-    latitude: props.latitude == '' ? '' : props.latitude,
-    longitude: props.longitude == '' ? '' : props.longitude,
+    latitude: props.latitude == "" ? "" : props.latitude,
+    longitude: props.longitude == "" ? "" : props.longitude,
   });
 
-  const [gpsLocat, setGpsLocat] = useState({ lat: '', lng: '' });
+  const [gpsLocat, setGpsLocat] = useState({ lat: "", lng: "" });
 
   const init = async () => {
     await getLocation();
     handleSurveyLoaction();
-  }
+  };
 
   useEffect(() => {
     if (didMount) {
       init();
     }
-    const backAction = () => { return true };
+    const backAction = () => {
+      return true;
+    };
     const backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
-      backAction);
+      backAction
+    );
     return () => backHandler.remove();
   }, []);
 
   const handleSurveyLoaction = () => {
-    if (props.lngSurvey != '' && props.latSurvey != '') {
-      setCusLocation(current => ({
+    if (props.lngSurvey != "" && props.latSurvey != "") {
+      setCusLocation((current) => ({
         ...current,
         latitude: props.latSurvey,
         longitude: props.lngSurvey,
@@ -50,72 +53,124 @@ export default function Map(props) {
   };
 
   const getLocation = async () => {
-    await RNGeolocation.getCurrentPosition(
-      (position) => {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
+    // await RNGeolocation.getCurrentPosition(
+    //   (position) => {
+    //     const latitude = position.coords.latitude;
+    //     const longitude = position.coords.longitude;
 
-        setLocation(_state => ({
+    //     setLocation(_state => ({
+    //       ..._state,
+    //       location: position,
+    //       latitude: latitude,
+    //       longitude: longitude,
+    //     }));
+
+    //     setGpsLocat(_state => ({
+    //       ..._state,
+    //       lat: latitude,
+    //       lng: longitude,
+    //     }));
+
+    //     if (props.latSurvey == '' && props.lngSurvey == '') {
+    //       if (
+    //         props.caseLoacation.caseLat == '' &&
+    //         props.caseLoacation.castLng == ''
+    //       ) {
+    //         setCusLocation(_state => ({
+    //           ..._state,
+    //           latitude: latitude,
+    //           longitude: longitude,
+    //         }));
+    //         onWebViewLoad(latitude, longitude);
+    //       } else {
+    //         setCusLocation(_state => ({
+    //           ..._state,
+    //           latitude: props.caseLoacation.caseLat,
+    //           longitude: props.caseLoacation.castLng,
+    //         }));
+    //         onWebViewLoad(
+    //           props.caseLoacation.caseLat,
+    //           props.caseLoacation.castLng,
+    //         );
+    //       }
+    //     } else {
+    //       setCusLocation(_state => ({
+    //         ..._state,
+    //         latitude: props.latSurvey,
+    //         longitude: props.lngSurvey,
+    //       }));
+    //       onWebViewLoad(props.latSurvey, props.lngSurvey);
+
+    //     }
+    //   },
+    //   error => {
+    //     console.log(error);
+    //     Alert.alert(
+    //       'Warning message!',
+    //       'Unable to check route Due to not finding a job position.',
+    //       [
+    //         {
+    //           text: 'ตกลง',
+    //           onPress: () => { },
+    //         },
+    //       ],
+    //     );
+    //   },
+    //   //{ enableHighAccuracy: false },
+    //   { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    // );
+    // Get current location
+    const position = await Location.getCurrentPositionAsync({
+      accuracy: Location.Accuracy.Highest,
+      timeout: 15000,
+      maximumAge: 10000,
+    });
+
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+
+    // Update state
+    setLocation((_state) => ({
+      ..._state,
+      location: position,
+      latitude: latitude,
+      longitude: longitude,
+    }));
+
+    setGpsLocat((_state) => ({
+      ..._state,
+      lat: latitude,
+      lng: longitude,
+    }));
+
+    // Check conditions for props.latSurvey and props.caseLoacation
+    if (props.latSurvey === "" && props.lngSurvey === "") {
+      if (
+        props.caseLoacation.caseLat === "" &&
+        props.caseLoacation.castLng === ""
+      ) {
+        setCusLocation((_state) => ({
           ..._state,
-          location: position,
           latitude: latitude,
           longitude: longitude,
         }));
-
-        setGpsLocat(_state => ({
+        onWebViewLoad(latitude, longitude);
+      } else {
+        setCusLocation((_state) => ({
           ..._state,
-          lat: latitude,
-          lng: longitude,
+          latitude: props.caseLoacation.caseLat,
+          longitude: props.caseLoacation.castLng,
         }));
-
-        if (props.latSurvey == '' && props.lngSurvey == '') {
-          if (
-            props.caseLoacation.caseLat == '' &&
-            props.caseLoacation.castLng == ''
-          ) {
-            setCusLocation(_state => ({
-              ..._state,
-              latitude: latitude,
-              longitude: longitude,
-            }));
-            onWebViewLoad(latitude, longitude);
-          } else {
-            setCusLocation(_state => ({
-              ..._state,
-              latitude: props.caseLoacation.caseLat,
-              longitude: props.caseLoacation.castLng,
-            }));
-            onWebViewLoad(
-              props.caseLoacation.caseLat,
-              props.caseLoacation.castLng,
-            );
-          }
-        } else {
-          setCusLocation(_state => ({
-            ..._state,
-            latitude: props.latSurvey,
-            longitude: props.lngSurvey,
-          }));
-          onWebViewLoad(props.latSurvey, props.lngSurvey);
-
-        }
-      },
-      error => {
-        console.log(error);
-        Alert.alert(
-          'Warning message!',
-          'Unable to check route Due to not finding a job position.',
-          [
-            {
-              text: 'ตกลง',
-              onPress: () => { },
-            },
-          ],
-        );
-      },
-      //{ enableHighAccuracy: false },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-    );
+        onWebViewLoad(props.caseLoacation.caseLat, props.caseLoacation.castLng);
+      }
+    } else {
+      setCusLocation((_state) => ({
+        ..._state,
+        latitude: props.latSurvey,
+        longitude: props.lngSurvey,
+      }));
+      onWebViewLoad(props.latSurvey, props.lngSurvey);
+    }
   };
 
   const toFixed = (num, pre) => {
@@ -130,7 +185,7 @@ export default function Map(props) {
     props.onClickSave(true, latitude, longitude);
   };
 
-  const onWebViewMessage = event => {
+  const onWebViewMessage = (event) => {
     let objMsg = JSON.parse(event.nativeEvent.data);
     // console.log(objMsg);
     let latitude = objMsg.lat;
@@ -141,7 +196,7 @@ export default function Map(props) {
     }, 500);
   };
 
-  if (props.latitude != '' && props.longitude != '') {
+  if (props.latitude != "" && props.longitude != "") {
     // console.log(props.latitude + ',' + props.longitude);
     if (props.searchClick == true) {
       webview.current.injectJavaScript(
@@ -166,14 +221,14 @@ export default function Map(props) {
   return (
     <WebView
       onLoad={() => getLocation()}
-      originWhitelist={['*']}
+      originWhitelist={["*"]}
       ref={webview}
       domStorageEnabled={true}
       javaScriptEnabled={true}
       scalesPageToFit
       scrollEnabled={false}
-      mixedContentMode={'always'}
-      useWebKit={Platform.OS == 'ios'}
+      mixedContentMode={"always"}
+      useWebKit={Platform.OS == "ios"}
       allowUniversalAccessFromFileURLs={true}
       source={{
         html: `<!DOCTYPE html>
@@ -243,7 +298,9 @@ export default function Map(props) {
                 //var url_ows = "http://sitdev.dyndns.org:3000/geoserver/IIMS/ows";
                 //var url_wms = "http://sitdev.dyndns.org:3000/geoserver/IIMS/wms?";
 
-                var url_wms = "https://gisweb1.pwa.co.th/geoserver/PG_WEBGIS/wms?&CQL_FILTER=pwa_code=${props.ww_code}"; //5511000
+                var url_wms = "https://gisweb1.pwa.co.th/geoserver/PG_WEBGIS/wms?&CQL_FILTER=pwa_code=${
+                  props.ww_code
+                }"; //5511000
                 var url_local = "https://gisweb1.pwa.co.th/geoserver/PWA_GIS/wms?";
                 // var url_wms = "https://gisweb1.pwa.co.th/geoserver/PG_WEBGIS/wms?&CQL_FILTER=pwa_code=5542017";
         
@@ -348,7 +405,9 @@ export default function Map(props) {
                     states: [    {
                             icon:'fa-dot-circle-o ',
                             onClick: function(btn, map) {
-                                mymap.setView([${location.latitude},${location.longitude}],16);
+                                mymap.setView([${location.latitude},${
+          location.longitude
+        }],16);
                             }
                     }]
                 });
@@ -358,9 +417,13 @@ export default function Map(props) {
                 // create custom icon  
                 var pulsingIcon = L.icon.pulse({iconSize:[16,16],color:'blue'});
         
-                marker  = L.marker([${gpsLocat.lat},${gpsLocat.lng}],{ icon: pulsingIcon }).addTo(mymap);
+                marker  = L.marker([${gpsLocat.lat},${
+          gpsLocat.lng
+        }],{ icon: pulsingIcon }).addTo(mymap);
               
-                if(${cusLocation.latitude} != '' && ${cusLocation.longitude} != '' ){
+                if(${cusLocation.latitude} != '' && ${
+          cusLocation.longitude
+        } != '' ){
                     DrawMarker();
                 }else{
                     mymap.on('click', onAddMarker);
@@ -407,7 +470,9 @@ export default function Map(props) {
             };
 
             function DrawMarker(){
-                markerJob = L.marker([${cusLocation.latitude},${cusLocation.longitude}],{
+                markerJob = L.marker([${cusLocation.latitude},${
+          cusLocation.longitude
+        }],{
                     draggable: true,
                     autoPan: true,
                     icon: ColorMarker(1)
@@ -421,7 +486,10 @@ export default function Map(props) {
                     window.ReactNativeWebView.postMessage(msg)
                 });
 
-                markerJob.bindPopup("<b>จุดซ่อม (" + [${toFixed(cusLocation.latitude, 6)},${toFixed(cusLocation.longitude, 6)}] + ")</b>");
+                markerJob.bindPopup("<b>จุดซ่อม (" + [${toFixed(
+                  cusLocation.latitude,
+                  6
+                )},${toFixed(cusLocation.longitude, 6)}] + ")</b>");
                 markerJob.openPopup();
             }
 
@@ -495,7 +563,7 @@ export default function Map(props) {
         </body>
         </html>
         <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script> `,
-        baseUrl: '',
+        baseUrl: "",
       }}
       onMessage={onWebViewMessage}
     />

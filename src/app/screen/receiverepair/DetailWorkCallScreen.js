@@ -275,10 +275,10 @@ export default function DetailWorkCallScreen({ props, navigation }) {
     });
 
     if (viewData[0].caseLatitude == "" && viewData[0].caseLongtitude == "") {
-      // console.log(viewData[0].caseLatitude)
+      console.log(viewData[0].caseLatitude)
       settingAlert("ALERT_LOCATION", "");
     } else {
-      // console.log("viewData[0]: ", viewData[0], profile.ww_code)
+      console.log("viewData[0]: ", viewData[0], profile.ww_code)
       navigation.navigate("location", {
         viewData: viewData[0],
         ww_code: profile.ww_code,

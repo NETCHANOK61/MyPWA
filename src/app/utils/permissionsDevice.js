@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import * as Permissions from 'expo-permissions';  // Use Expo permissions for general permissions
+// import * as Permissions from 'expo-permissions';  // Use Expo permissions for general permissions
 import * as Location from 'expo-location';  // Use Expo location for location permissions
 
 export const requestPermissionsAccept = async () => {
@@ -82,22 +82,21 @@ export const requestLocationAccept = async () => {
 };
 
 export const checkLocationAccept = async () => {
-    let locationStatus = '';
     let status = false;
+
     if (Platform.OS === 'ios') {
+        // iOS: Directly request foreground permissions using expo-location
         const { status: locationStatusResult } = await Location.requestForegroundPermissionsAsync();
         if (locationStatusResult === 'granted') {
             status = true;
-        } else {
-            status = false;
         }
     } else {
-        const { status: locationStatusResult } = await Permissions.getAsync(Permissions.LOCATION_FOREGROUND);
+        // Android: Also use expo-location for requesting permissions
+        const { status: locationStatusResult } = await Location.requestForegroundPermissionsAsync();
         if (locationStatusResult === 'granted') {
             status = true;
-        } else {
-            status = false;
         }
     }
+
     return status;
 };

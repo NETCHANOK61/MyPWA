@@ -4,7 +4,7 @@ import { Radio, Box, NativeBaseProvider } from 'native-base'
 import { useSelector, useDispatch } from 'react-redux';
 import { Input } from 'react-native-elements';
 import { useIsFocused } from '@react-navigation/native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+// import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 import MapJs from './Map';
@@ -16,6 +16,7 @@ import { getProfile } from '../../../utils/Storage';
 import * as saveLocationPointNormalAction from '../../../actions/jobsurvey/SaveLocationPointNormalAction';
 import { setStateRadioPipe } from '../../../actions/workrepair/WorkRepairDetailAction';
 import { checkLocationAccept, requestLocationAccept } from '../../../utils/permissionsDevice';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function Savelocation(props) {
   const dispatch = useDispatch();
@@ -332,7 +333,7 @@ export default function Savelocation(props) {
       <Box flex={1} >
         <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
           <TouchableOpacity onPress={() => setPoint()} style={{ width: '13%' }} >
-            <Ionicons name="md-search-circle-sharp" size={50} color="#2c689e" />
+            <Ionicons name="search-circle-sharp" size={50} color="#2c689e" />
           </TouchableOpacity>
           <View style={{ flexDirection: 'row', alignItems: 'center', width: '80%' }} >
             <TextInput

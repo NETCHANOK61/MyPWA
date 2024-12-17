@@ -6,6 +6,7 @@ const { width: viewportWidth, height: viewportHeight } =
   Dimensions.get("window");
 
 export default function Location(props) {
+  // console.log("location.js: ", props.route.params)
   const [jobType, setJobType] = useState("LEAK DETECTION");
   const [data, setdata] = useState([]);
 

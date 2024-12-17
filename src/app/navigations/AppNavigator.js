@@ -492,7 +492,8 @@ const MyTab = ({ navigation, route }) => {
           </TouchableOpacity>
         ),
       });
-    } else {
+    } 
+    else {
       navigation.setOptions({
         title: "",
         headerShown: false,
