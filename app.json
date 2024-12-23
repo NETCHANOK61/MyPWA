@@ -1,7 +1,6 @@
 {
   "expo": {
     "newArchEnabled": true,
-    "entryPoint": "./src/main.js",
     "name": "MyPWA",
     "slug": "MyPWA",
     "version": "1.0.0",

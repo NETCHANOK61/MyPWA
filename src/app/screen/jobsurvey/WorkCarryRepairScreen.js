@@ -32,7 +32,7 @@ import WorkCarryRepairStyle from "../../styles/WorkCarryRepairStyle";
 import Awesome from "../../components/awesomealert/Awesome";
 
 import LoadingSpinner from "../../components/loading-spinner/loading-spinner";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+// import { ScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import {
   formateDateyyyymmdd,
@@ -1138,7 +1138,7 @@ export default function WorkCarryRepairScreen(props) {
   };
 
   return (
-    <KeyboardAwareScrollView style={{ backgroundColor: "#FFFFFF" }}>
+    <ScrollView style={{ backgroundColor: "#FFFFFF" }}>
       <View style={{ flex: 1 }}>
         <NativeBaseProvider>
           <View
@@ -1804,6 +1804,6 @@ export default function WorkCarryRepairScreen(props) {
         />
         {show && <DateTimePickker />}
       </View>
-    </KeyboardAwareScrollView>
+    </ScrollView>
   );
 }
