@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
@@ -7,9 +7,9 @@ import {
   TextInput,
   Dimensions,
   Platform,
-} from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
-import { CheckBox } from 'react-native-elements';
+} from "react-native";
+import { useSelector, useDispatch } from "react-redux";
+import { CheckBox } from "react-native-elements";
 import {
   Select,
   VStack,
@@ -17,19 +17,22 @@ import {
   NativeBaseProvider,
   HStack,
   Icon,
-} from 'native-base';
+} from "native-base";
 
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Entypo from 'react-native-vector-icons/Entypo';
-import { DatePickerModal, TimePickerModal } from 'react-native-paper-dates';
-import DateTimePicker from '@react-native-community/datetimepicker';
-const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
-import textsty from '../../styles/TextStyle';
-import othersty from '../../styles/OtherStyle';
-import WorkCarryRepairStyle from '../../styles/WorkCarryRepairStyle';
-import Awesome from '../../components/awesomealert/Awesome';
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Entypo from "react-native-vector-icons/Entypo";
+// import { DatePickerModal, TimePickerModal } from 'react-native-paper-dates';
+// import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+const { width: viewportWidth, height: viewportHeight } =
+  Dimensions.get("window");
+import textsty from "../../styles/TextStyle";
+import othersty from "../../styles/OtherStyle";
+import WorkCarryRepairStyle from "../../styles/WorkCarryRepairStyle";
+import Awesome from "../../components/awesomealert/Awesome";
 
-import LoadingSpinner from '../../components/loading-spinner/loading-spinner'
+import LoadingSpinner from "../../components/loading-spinner/loading-spinner";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import {
   formateDateyyyymmdd,
@@ -40,19 +43,21 @@ import {
   convertTimeNowFormate,
   stringTime,
   dateViewShort,
-} from '../../utils/Date';
-import { getSizeOfPipes } from '../../utils/Service';
-import * as workCarryRepairAction from '../../actions/jobsurvey/WorkCarryRepairAction';
-import * as workRepairAction from '../../actions/workrepair/WorkRepairAction';
-import { checkPermissionsAccept, requestPermissionsAccept } from '../../utils/permissionsDevice'
-
+} from "../../utils/Date";
+import { getSizeOfPipes } from "../../utils/Service";
+import * as workCarryRepairAction from "../../actions/jobsurvey/WorkCarryRepairAction";
+import * as workRepairAction from "../../actions/workrepair/WorkRepairAction";
+import {
+  checkPermissionsAccept,
+  requestPermissionsAccept,
+} from "../../utils/permissionsDevice";
 
 const InputNormal = ({ hint, onChangeText, val, color, dis }) => {
   return (
     <TextInput
       style={[
         WorkCarryRepairStyle.textinput,
-        { borderColor: color, color: 'black' },
+        { borderColor: color, color: "black" },
       ]}
       onChangeText={onChangeText}
       value={val}
@@ -67,15 +72,15 @@ export default function WorkCarryRepairScreen(props) {
   const dispatch = useDispatch();
 
   const workCarrayRepairReducer = useSelector(
-    state => state.workCarrayRepairReducer,
+    (state) => state.workCarrayRepairReducer
   );
 
   const saveLocationPointNormalReducer = useSelector(
-    state => state.saveLocationPointNormalReducer,
+    (state) => state.saveLocationPointNormalReducer
   );
 
   const workRepairDetailReducer = useSelector(
-    state => state.workRepairDetailReducer,
+    (state) => state.workRepairDetailReducer
   );
 
   const [date, setDate] = useState(new Date());
@@ -90,48 +95,48 @@ export default function WorkCarryRepairScreen(props) {
   const [checkedLat, toggleCheckedLat] = useState(false);
 
   const [toggleCheckedSizePipe, setToggleCheckedSizePipe] = useState(false);
-  const [brokenAppearance, setBrokenAppearance] = useState('');
-  const [holeDepth, setHoleDepth] = useState('');
-  const [holeLength, setHoleLength] = useState('');
-  const [holeWidth, setHoleWidth] = useState('');
+  const [brokenAppearance, setBrokenAppearance] = useState("");
+  const [holeDepth, setHoleDepth] = useState("");
+  const [holeLength, setHoleLength] = useState("");
+  const [holeWidth, setHoleWidth] = useState("");
   const [arrPipeSize, setArrPipeSize] = useState([]);
   const [arrProcessGIS, setArrProcessGIS] = useState([]);
 
   // Begin New Picker DateTime
   const [show, setShow] = useState(false);
   const [customPickerdateTime, setCustomPickerdateTime] = useState({
-    mode: 'date',
-    onChang: () => { },
+    mode: "date",
+    onChang: () => {},
   });
   // End New Picker DateTime
 
   const [dateTime, setDateTime] = useState({
-    dateForm: '',
-    dateTo: '',
-    dateTextTure: '',
-    timeFrom: '',
-    timeTo: '',
-    timeTextTrue: '',
+    dateForm: "",
+    dateTo: "",
+    dateTextTure: "",
+    timeFrom: "",
+    timeTo: "",
+    timeTextTrue: "",
   });
 
   const [pickerdVal, setPickerdVal] = useState({
-    empoyees: '',
-    serfaces: '',
-    tpyofpipes: '',
-    sizeofpipes: '',
-    processpipes: '',
-    leakwound: '',
+    empoyees: "",
+    serfaces: "",
+    tpyofpipes: "",
+    sizeofpipes: "",
+    processpipes: "",
+    leakwound: "",
   });
 
   const [customAlert, setCustomAlert] = useState({
     titleIcon: 0,
     showConfirmButton: false,
     showCancelButton: false,
-    textBody: '',
-    confirmText: '',
-    cancelText: '',
-    onConfirmPress: () => { },
-    onCancelPress: () => { },
+    textBody: "",
+    confirmText: "",
+    cancelText: "",
+    onConfirmPress: () => {},
+    onCancelPress: () => {},
   });
 
   // spiner load
@@ -147,69 +152,68 @@ export default function WorkCarryRepairScreen(props) {
     if (checkPermissions != true) {
       await requestPermissionsAccept();
     }
-  }
+  };
   useEffect(() => {
     init();
   }, []);
 
   const loadDataSetView = () => {
-
     if (props.data.process == null) {
       setViewTime();
     } else {
-      if (workCarrayRepairReducer.rememViewWorkCarray.sts == '1') {
-        setDateTime(current => ({
+      if (workCarrayRepairReducer.rememViewWorkCarray.sts == "1") {
+        setDateTime((current) => ({
           ...current,
           dateForm:
-            props.data.process.fromProcessDate == ''
+            props.data.process.fromProcessDate == ""
               ? dateNowTh()
               : convertDateServiceToDateTh(props.data.process.fromProcessDate),
           dateTo:
-            props.data.process.toProcessDate == ''
+            props.data.process.toProcessDate == ""
               ? dateNowTh()
               : convertDateServiceToDateTh(props.data.process.toProcessDate),
           dateTextTure:
-            props.data.process.surfaceFixedDate == ''
+            props.data.process.surfaceFixedDate == ""
               ? dateNowTh()
               : convertDateServiceToDateTh(props.data.process.surfaceFixedDate),
           timeFrom:
-            props.data.process.fromProcessTime == ''
+            props.data.process.fromProcessTime == ""
               ? timeNow()
               : props.data.process.fromProcessTime,
           timeTo:
-            props.data.process.toProcessTime == ''
+            props.data.process.toProcessTime == ""
               ? timeNow()
               : props.data.process.toProcessTime,
           timeTextTrue:
-            props.data.process.surfaceFixedTime == ''
+            props.data.process.surfaceFixedTime == ""
               ? timeNow()
               : props.data.process.surfaceFixedTime,
         }));
 
         const obj = {
-          sts: '2',
+          sts: "2",
           dateForm:
-            props.data.process.fromProcessDate == ''
+            props.data.process.fromProcessDate == ""
               ? dateNowTh()
               : convertDateServiceToDateTh(props.data.process.fromProcessDate),
           dateTo:
-            props.data.process.toProcessDate == ''
+            props.data.process.toProcessDate == ""
               ? dateNowTh()
               : convertDateServiceToDateTh(props.data.process.toProcessDate),
           dateTextTure:
-            props.data.process.surfaceFixedDate == ''
+            props.data.process.surfaceFixedDate == ""
               ? dateNowTh()
               : convertDateServiceToDateTh(props.data.process.surfaceFixedDate),
           timeFrom:
-            props.data.process.fromProcessTime == ''
+            props.data.process.fromProcessTime == ""
               ? timeNow()
               : props.data.process.fromProcessTime,
           timeTo:
-            props.data.process.toProcessTime == ''
+            props.data.process.toProcessTime == ""
               ? timeNow()
               : props.data.process.toProcessTime,
           timeTextTrue:
-            props.data.process.surfaceFixedTime == ''
+            props.data.process.surfaceFixedTime == ""
               ? timeNow()
               : props.data.process.surfaceFixedTime,
         };
@@ -220,20 +224,24 @@ export default function WorkCarryRepairScreen(props) {
       }
 
       setBrokenAppearance(
-        props.data.process.brokenAppearance == ''
-          ? ''
-          : props.data.process.brokenAppearance,
+        props.data.process.brokenAppearance == ""
+          ? ""
+          : props.data.process.brokenAppearance
       );
 
-      toggleChecked(props.data.process.isNotGIS == '0' || props.data.process.isNotGIS == '' ? false : true);
+      toggleChecked(
+        props.data.process.isNotGIS == "0" || props.data.process.isNotGIS == ""
+          ? false
+          : true
+      );
       loadData_saveSizeHole();
       loadData_savePickerVal();
     }
-    setVisibleLoading(false)
+    setVisibleLoading(false);
   };
 
   const setViewTime = () => {
-    setDateTime(current => ({
+    setDateTime((current) => ({
       ...current,
       dateForm: workCarrayRepairReducer.rememViewWorkCarray.dateForm,
       dateTo: workCarrayRepairReducer.rememViewWorkCarray.dateTo,
@@ -245,13 +253,12 @@ export default function WorkCarryRepairScreen(props) {
   };
 
   const loadData_savePickerVal = () => {
-
-    let leakWound_id = '99';
+    let leakWound_id = "99";
     if (props.data.process.leakWound_id) {
       leakWound_id = props.data.process.leakWound_id.toString();
     }
 
-    setPickerdVal(_state => ({
+    setPickerdVal((_state) => ({
       ..._state,
       tpyofpipes: props.data.process.piplineType,
       sizeofpipes: props.data.process.piplineSize,
@@ -264,13 +271,22 @@ export default function WorkCarryRepairScreen(props) {
   };
 
   const loadDataPinLocationPip = () => {
-    toggleCheckedLat(workRepairDetailReducer.dataArray.survey.latitude == "" && workRepairDetailReducer.dataArray.survey.latitude == "" ? true : false);
+    toggleCheckedLat(
+      workRepairDetailReducer.dataArray.survey.latitude == "" &&
+        workRepairDetailReducer.dataArray.survey.latitude == ""
+        ? true
+        : false
+    );
     if (saveLocationPointNormalReducer.dataObj != null) {
-      setPickerdVal(_state => ({
+      setPickerdVal((_state) => ({
         ..._state,
         tpyofpipes: saveLocationPointNormalReducer.dataObj.piplineType,
         sizeofpipes: saveLocationPointNormalReducer.dataObj.piplineSize,
-        processpipes: saveLocationPointNormalReducer.dataObj.piplineType != null || saveLocationPointNormalReducer.dataObj.piplineSize != null ? '0' : '',
+        processpipes:
+          saveLocationPointNormalReducer.dataObj.piplineType != null ||
+          saveLocationPointNormalReducer.dataObj.piplineSize != null
+            ? "0"
+            : "",
       }));
       sizeofpipe(saveLocationPointNormalReducer.dataObj.piplineType);
     }
@@ -278,35 +294,36 @@ export default function WorkCarryRepairScreen(props) {
 
   const loadData_saveSizeHole = () => {
     setHoleWidth(
-      props.data.process.holeWidth == '' ? '' : props.data.process.holeWidth,
+      props.data.process.holeWidth == "" ? "" : props.data.process.holeWidth
     );
     setHoleLength(
-      props.data.process.holeLength == '' ? '' : props.data.process.holeLength,
+      props.data.process.holeLength == "" ? "" : props.data.process.holeLength
     );
     setHoleDepth(
-      props.data.process.holeDepth == '' ? '' : props.data.process.holeDepth,
+      props.data.process.holeDepth == "" ? "" : props.data.process.holeDepth
     );
   };
 
   // Start Picker
   const setPickerData = (nme, label) => {
-
-    setPickerdVal(_state => ({
+    setPickerdVal((_state) => ({
       ..._state,
       [nme]: label,
     }));
 
-    if (nme == 'tpyofpipes') {
+    if (nme == "tpyofpipes") {
       sizeofpipe(label);
-      setPickerdVal(_state => ({ ..._state, sizeofpipes: '' }));
+      setPickerdVal((_state) => ({ ..._state, sizeofpipes: "" }));
     }
-    if (nme == 'processpipes') {
+    if (nme == "processpipes") {
       if (label == 0) {
-        if (workRepairDetailReducer.dataArray.survey.pipe_id == "" ||
+        if (
+          workRepairDetailReducer.dataArray.survey.pipe_id == "" ||
           workRepairDetailReducer.dataArray.survey.piplineSize == "" ||
-          workRepairDetailReducer.dataArray.survey.piplineType == "") {
-          settingAlert('ALERT_WARNING_LOCATION');
-        };
+          workRepairDetailReducer.dataArray.survey.piplineType == ""
+        ) {
+          settingAlert("ALERT_WARNING_LOCATION");
+        }
         toggleChecked(false);
       } else {
         toggleChecked(true);
@@ -317,39 +334,41 @@ export default function WorkCarryRepairScreen(props) {
       setToggleCheckedSizePipe(false);
     }
 
-    if (nme == 'leakwound') {
-      let _filterLeakwound = props.getLeakwounds.filter(x => x.value === label);
+    if (nme == "leakwound") {
+      let _filterLeakwound = props.getLeakwounds.filter(
+        (x) => x.value === label
+      );
       console.log(_filterLeakwound[0].label);
       setBrokenAppearance(_filterLeakwound[0].label);
     }
   };
 
   const setSateDataParams = (key, value) => {
-    setDateTime(currentState => ({ ...currentState, [key]: value }));
+    setDateTime((currentState) => ({ ...currentState, [key]: value }));
     const obj = {
-      sts: '2',
+      sts: "2",
       dateForm:
-        key == 'dateForm'
+        key == "dateForm"
           ? value
           : workCarrayRepairReducer.rememViewWorkCarray.dateForm,
       dateTo:
-        key == 'dateTo'
+        key == "dateTo"
           ? value
           : workCarrayRepairReducer.rememViewWorkCarray.dateTo,
       dateTextTure:
-        key == 'dateTextTure'
+        key == "dateTextTure"
           ? value
           : workCarrayRepairReducer.rememViewWorkCarray.dateTextTure,
       timeFrom:
-        key == 'timeFrom'
+        key == "timeFrom"
           ? value
           : workCarrayRepairReducer.rememViewWorkCarray.timeFrom,
       timeTo:
-        key == 'timeTo'
+        key == "timeTo"
           ? value
           : workCarrayRepairReducer.rememViewWorkCarray.timeTo,
       timeTextTrue:
-        key == 'timeTextTrue'
+        key == "timeTextTrue"
           ? value
           : workCarrayRepairReducer.rememViewWorkCarray.timeTextTrue,
     };
@@ -357,10 +376,10 @@ export default function WorkCarryRepairScreen(props) {
     dispatch(workCarryRepairAction.rememViewWorkCarryRepair(obj));
   };
 
-  const sizeofpipe = async value => {
+  const sizeofpipe = async (value) => {
     let arrr1 = [];
-    if (value != '') {
-      await getSizeOfPipes(value).then(data => {
+    if (value != "") {
+      await getSizeOfPipes(value).then((data) => {
         data.pipelineSizes.map((l, i) => {
           arrr1.push(l);
         });
@@ -376,26 +395,26 @@ export default function WorkCarryRepairScreen(props) {
 
   const pickerProcess = () => {
     let pickerProcessArrr = [];
-    if (workRepairDetailReducer.radioPipe == '1') {
+    if (workRepairDetailReducer.radioPipe == "1") {
       pickerProcessArrr.push(
-        { label: 'ตรงกับหน้างาน', value: '0' },
-        { label: 'ไม่ตรงกับหน้างาน', value: '1' },
+        { label: "ตรงกับหน้างาน", value: "0" },
+        { label: "ไม่ตรงกับหน้างาน", value: "1" }
       );
-    } else if (workRepairDetailReducer.radioPipe == '2') {
+    } else if (workRepairDetailReducer.radioPipe == "2") {
       pickerProcessArrr.push(
-        { label: 'ไม่มีท่อในระบบ (ท่อจำหน่าย)', value: '2' },
-        { label: 'ไม่มีท่อในระบบ (ท่อบริการ/ขามาตร)', value: '3' }
+        { label: "ไม่มีท่อในระบบ (ท่อจำหน่าย)", value: "2" },
+        { label: "ไม่มีท่อในระบบ (ท่อบริการ/ขามาตร)", value: "3" }
       );
     } else {
       pickerProcessArrr.push(
-        { label: 'ตรงกับหน้างาน', value: '0' },
-        { label: 'ไม่ตรงกับหน้างาน', value: '1' },
-        { label: 'ไม่มีท่อในระบบ (ท่อจำหน่าย)', value: '2' },
-        { label: 'ไม่มีท่อในระบบ (ท่อบริการ/ขามาตร)', value: '3' }
+        { label: "ตรงกับหน้างาน", value: "0" },
+        { label: "ไม่ตรงกับหน้างาน", value: "1" },
+        { label: "ไม่มีท่อในระบบ (ท่อจำหน่าย)", value: "2" },
+        { label: "ไม่มีท่อในระบบ (ท่อบริการ/ขามาตร)", value: "3" }
       );
     }
-    setArrProcessGIS(pickerProcessArrr)
-  }
+    setArrProcessGIS(pickerProcessArrr);
+  };
 
   // End Picker
 
@@ -413,30 +432,30 @@ export default function WorkCarryRepairScreen(props) {
   }, [setVisibleDateTextTure]);
 
   const onConfirmDate_Form = useCallback(
-    params => {
+    (params) => {
       setVisibleDateFrom(false);
-      setDate(params.date);
-      setSateDataParams('dateForm', formatDate(params.date));
+      setDate(params);
+      setSateDataParams("dateForm", formatDate(params));
     },
-    [setVisibleDateFrom, setDate],
+    [setVisibleDateFrom, setDate]
   );
 
   const onConfirmDate_To = useCallback(
-    params => {
+    (params) => {
       setVisibleDateTo(false);
-      setDate(params.date);
-      setSateDataParams('dateTo', formatDate(params.date));
+      setDate(params);
+      setSateDataParams("dateTo", formatDate(params));
     },
-    [(setVisibleDateTo, setDate)],
+    [(setVisibleDateTo, setDate)]
   );
 
   const onConfirmDate_TextTure = useCallback(
-    params => {
+    (params) => {
       setVisibleDateTextTure(false);
-      setDate(params.date);
-      setSateDataParams('dateTextTure', formatDate(params.date));
+      setDate(params);
+      setSateDataParams("dateTextTure", formatDate(params));
     },
-    [(setVisibleDateTo, setDate)],
+    [(setVisibleDateTo, setDate)]
   );
 
   // End Date
@@ -454,57 +473,60 @@ export default function WorkCarryRepairScreen(props) {
     setVisibleTimeTextTure(false);
   }, [setVisibleTimeTextTure]);
 
+  const setTime = (param) => {
+    // Extract hours and minutes from param (assuming it's a Date object or similar)
+    const hours = param.getHours();
+    const minutes = param.getMinutes();
+
+    // Format the time string (e.g., "HH:mm")
+    return `${hours}:${minutes < 10 ? "0" + minutes : minutes}`;
+  };
+
   const onConfirmTime_From = useCallback(
-    ({ hours, minutes }) => {
+    (param) => {
       setVisibleTimeFrom(false);
-      setSateDataParams('timeFrom', stringTime(hours, minutes));
+      setSateDataParams("timeFrom", setTime(param));
     },
-    [setVisibleTimeFrom],
+    [setVisibleTimeFrom]
   );
 
   const onConfirmTime_To = useCallback(
-    ({ hours, minutes }) => {
+    (param) => {
       setVisibleTimeTo(false);
-      setSateDataParams('timeTo', stringTime(hours, minutes));
+      setSateDataParams("timeTo", setTime(param));
     },
-    [setVisibleTimeTo],
+    [setVisibleTimeTo]
   );
 
   const onConfirmTime_TextTure = useCallback(
-    ({ hours, minutes }) => {
+    (param) => {
       setVisibleTimeTextTure(false);
-      setSateDataParams('timeTextTrue', stringTime(hours, minutes));
+      setSateDataParams("timeTextTrue", setTime(param));
     },
-    [setVisibleTimeTextTure],
+    [setVisibleTimeTextTure]
   );
   // End Time
 
   const DatePicker_recive = ({ con, dis, vis }) => {
     return (
-      <DatePickerModal
-        locale={'th'}
-        mode='single'
-        visible={vis}
-        onDismiss={dis}
-        date={date}
+      <DateTimePickerModal
+        isVisible={vis}
+        mode="date"
         onConfirm={con}
+        onCancel={dis}
+        locale="th_TH"
       />
     );
   };
 
   const TimePicker_recive = ({ con, dis, vis }) => {
     return (
-      <TimePickerModal
-        visible={vis}
-        onDismiss={dis}
+      <DateTimePickerModal
+        isVisible={vis}
+        mode="time"
         onConfirm={con}
-        hours={12} // default: current hours
-        minutes={12} // default: current minutes
-        label="เลือกเวลา" // optional, default 'Select time'
-        cancelLabel="ยกเลิก" // optional, default: 'Cancel'
-        confirmLabel="ตกลง" // optional, default: 'Ok'
-        animationType="fade" // optional, default is 'none'
-        locale={'th'} // optional, default is automically detected by your system
+        onCancel={dis}
+        locale="th_TH"
       />
     );
   };
@@ -517,9 +539,9 @@ export default function WorkCarryRepairScreen(props) {
     _confirmText,
     _cancelText,
     _onConfirmPress,
-    _onCancelPress,
+    _onCancelPress
   ) => {
-    setCustomAlert(state => ({
+    setCustomAlert((state) => ({
       ...state,
       titleIcon: _titleIcon,
       showConfirmButton: _showConfirmButton,
@@ -532,36 +554,38 @@ export default function WorkCarryRepairScreen(props) {
     }));
   };
 
-  const settingAlert = key => {
+  const settingAlert = (key) => {
     setIsLoaddingSave(false);
     switch (key) {
-      case 'ALERT_CLOSE_WORK_REPAIR':
+      case "ALERT_CLOSE_WORK_REPAIR":
         setStateAlert(
           2,
           true,
           true,
-          'คุณต้องการปิดงานซ่อมหรือไม่',
-          'ตกลง',
-          'ยกเลิก',
+          "คุณต้องการปิดงานซ่อมหรือไม่",
+          "ตกลง",
+          "ยกเลิก",
           () => {
             if (pickerdVal.processpipes == "") {
-              settingAlert('ALERT_WARNING_STATUS_GIS');
+              settingAlert("ALERT_WARNING_STATUS_GIS");
               return;
             } else {
               if (pickerdVal.processpipes == "0") {
-                if (pickerdVal.tpyofpipes == "" ||
-                  pickerdVal.sizeofpipes == "") {
-                  settingAlert('ALERT_WARNING_LOCATION');
+                if (
+                  pickerdVal.tpyofpipes == "" ||
+                  pickerdVal.sizeofpipes == ""
+                ) {
+                  settingAlert("ALERT_WARNING_LOCATION");
                   return;
                 }
               } else {
                 if (pickerdVal.tpyofpipes == "") {
-                  settingAlert('ALERT_WARNING_PIPETYPE');
+                  settingAlert("ALERT_WARNING_PIPETYPE");
                   return;
                 } else {
                   if (arrPipeSize.length != "") {
                     if (pickerdVal.sizeofpipes == "") {
-                      settingAlert('ALERT_WARNING_PIPESIZE');
+                      settingAlert("ALERT_WARNING_PIPESIZE");
                       return;
                     }
                   }
@@ -569,7 +593,7 @@ export default function WorkCarryRepairScreen(props) {
               }
             }
             if (pickerdVal.leakwound == "" || pickerdVal.leakwound == "99") {
-              settingAlert('ALERT_WARNING_LEAKWOUND');
+              settingAlert("ALERT_WARNING_LEAKWOUND");
               return;
             }
             setVisibleAlert(false);
@@ -580,36 +604,38 @@ export default function WorkCarryRepairScreen(props) {
           },
           () => {
             setVisibleAlert(false);
-          },
+          }
         );
         break;
-      case 'ALERT_CONFIRM_SAVE_RESULT':
+      case "ALERT_CONFIRM_SAVE_RESULT":
         setStateAlert(
           2,
           true,
           true,
-          'คุณต้องการบันทึกผลหรือไม่',
-          'ตกลง',
-          'ยกเลิก',
+          "คุณต้องการบันทึกผลหรือไม่",
+          "ตกลง",
+          "ยกเลิก",
           () => {
             if (pickerdVal.processpipes == "") {
-              settingAlert('ALERT_WARNING_STATUS_GIS');
+              settingAlert("ALERT_WARNING_STATUS_GIS");
               return;
             } else {
               if (pickerdVal.processpipes == "0") {
-                if (pickerdVal.tpyofpipes == "" ||
-                  pickerdVal.sizeofpipes == "") {
-                  settingAlert('ALERT_WARNING_LOCATION');
+                if (
+                  pickerdVal.tpyofpipes == "" ||
+                  pickerdVal.sizeofpipes == ""
+                ) {
+                  settingAlert("ALERT_WARNING_LOCATION");
                   return;
                 }
               } else {
                 if (pickerdVal.tpyofpipes == "") {
-                  settingAlert('ALERT_WARNING_PIPETYPE');
+                  settingAlert("ALERT_WARNING_PIPETYPE");
                   return;
                 } else {
                   if (arrPipeSize.length != "") {
                     if (pickerdVal.sizeofpipes == "") {
-                      settingAlert('ALERT_WARNING_PIPESIZE');
+                      settingAlert("ALERT_WARNING_PIPESIZE");
                       return;
                     }
                   }
@@ -617,7 +643,7 @@ export default function WorkCarryRepairScreen(props) {
               }
             }
             if (pickerdVal.leakwound == "" || pickerdVal.leakwound == "99") {
-              settingAlert('ALERT_WARNING_LEAKWOUND');
+              settingAlert("ALERT_WARNING_LEAKWOUND");
               return;
             }
             setVisibleAlert(false);
@@ -628,148 +654,147 @@ export default function WorkCarryRepairScreen(props) {
           },
           () => {
             setVisibleAlert(false);
-          },
+          }
         );
         break;
 
-      case 'ALERT_INSERT_SUCCESS':
+      case "ALERT_INSERT_SUCCESS":
         //console.log("TEST_______");
         setStateAlert(
           1,
           true,
           false,
-          'บันทึกข้อมูลเรียบร้อย',
-          'ตกลง',
-          '',
+          "บันทึกข้อมูลเรียบร้อย",
+          "ตกลง",
+          "",
           () => {
             setVisibleAlert(false);
             dispatch(workCarryRepairAction.loadSurvey(props.data.rwId));
           },
-          () => { },
+          () => {}
         );
         break;
 
-      case 'ALERT_INSERT_CLOSEJOB_SUCCESS':
+      case "ALERT_INSERT_CLOSEJOB_SUCCESS":
         setStateAlert(
           1,
           true,
           false,
-          'บันทึกข้อมูลเรียบร้อย',
-          'ตกลง',
-          '',
+          "บันทึกข้อมูลเรียบร้อย",
+          "ตกลง",
+          "",
           () => {
             setVisibleAlert(false);
             dispatch(workRepairAction.loadDataWitchPost(props));
             setTimeout(() => {
               props.navigation.goBack();
-              props.navigation.jumpTo('WorkRepair', {
-                owner: 'WorkRepair',
+              props.navigation.jumpTo("WorkRepair", {
+                owner: "WorkRepair",
               });
             }, 1000);
-
           },
-          () => { },
+          () => {}
         );
         break;
 
-      case 'ALERT_INSERT_FAILED':
+      case "ALERT_INSERT_FAILED":
         setStateAlert(
           4,
           true,
           false,
-          'ไม่สามารถบันทึกข้อมูลได้',
-          'ตกลง',
-          '',
+          "ไม่สามารถบันทึกข้อมูลได้",
+          "ตกลง",
+          "",
           () => {
             setVisibleAlert(false);
           },
-          () => { },
+          () => {}
         );
         break;
 
-      case 'ALERT_VERIFY':
+      case "ALERT_VERIFY":
         setStateAlert(
           3,
           true,
           false,
-          'กรุณาระบุข้อมูล',
-          'ตกลง',
-          '',
+          "กรุณาระบุข้อมูล",
+          "ตกลง",
+          "",
           () => {
             setVisibleAlert(false);
           },
-          () => { },
+          () => {}
         );
         break;
 
-      case 'ALERT_WARNING_LOCATION':
+      case "ALERT_WARNING_LOCATION":
         setStateAlert(
           3,
           true,
           false,
-          'กรุณากลับไปลงจุดซ่อมใหม่',
-          'ตกลง',
-          '',
+          "กรุณากลับไปลงจุดซ่อมใหม่",
+          "ตกลง",
+          "",
           () => {
             setVisibleAlert(false);
           },
-          () => { },
+          () => {}
         );
         break;
-      case 'ALERT_WARNING_PIPETYPE':
+      case "ALERT_WARNING_PIPETYPE":
         setStateAlert(
           3,
           true,
           false,
-          'กรุณาระบุข้อมูลชนิดท่อ',
-          'ตกลง',
-          '',
+          "กรุณาระบุข้อมูลชนิดท่อ",
+          "ตกลง",
+          "",
           () => {
             setVisibleAlert(false);
           },
-          () => { },
+          () => {}
         );
         break;
-      case 'ALERT_WARNING_PIPESIZE':
+      case "ALERT_WARNING_PIPESIZE":
         setStateAlert(
           3,
           true,
           false,
-          'กรุณาระบุข้อมูลขนาดของท่อ',
-          'ตกลง',
-          '',
+          "กรุณาระบุข้อมูลขนาดของท่อ",
+          "ตกลง",
+          "",
           () => {
             setVisibleAlert(false);
           },
-          () => { },
+          () => {}
         );
         break;
-      case 'ALERT_WARNING_LEAKWOUND':
+      case "ALERT_WARNING_LEAKWOUND":
         setStateAlert(
           3,
           true,
           false,
-          'กรุณาระบุข้อมูลสาเหตุการแตกรั่ว',
-          'ตกลง',
-          '',
+          "กรุณาระบุข้อมูลสาเหตุการแตกรั่ว",
+          "ตกลง",
+          "",
           () => {
             setVisibleAlert(false);
           },
-          () => { },
+          () => {}
         );
         break;
-      case 'ALERT_WARNING_STATUS_GIS':
+      case "ALERT_WARNING_STATUS_GIS":
         setStateAlert(
           3,
           true,
           false,
-          'กรุณาระบุสถานะลงจุดซ่อม (GIS)',
-          'ตกลง',
-          '',
+          "กรุณาระบุสถานะลงจุดซ่อม (GIS)",
+          "ตกลง",
+          "",
           () => {
             setVisibleAlert(false);
           },
-          () => { },
+          () => {}
         );
         break;
       default:
@@ -830,20 +855,30 @@ export default function WorkCarryRepairScreen(props) {
       HoleLength: holeLength,
       HoleDepth: holeDepth,
     };
-    dispatch(workCarryRepairAction.saveRepairWork(params, "", props ,'C',saveBeforeclose));
+    dispatch(
+      workCarryRepairAction.saveRepairWork(
+        params,
+        "",
+        props,
+        "C",
+        saveBeforeclose
+      )
+    );
   };
 
-  const saveBeforeclose = key => {
+  const saveBeforeclose = (key) => {
     switch (key) {
-      case 'S':
-        dispatch(workCarryRepairAction.saveCloseRepairWork(props, settingAlert));
+      case "S":
+        dispatch(
+          workCarryRepairAction.saveCloseRepairWork(props, settingAlert)
+        );
         break;
       default:
         break;
     }
   };
 
-  const saveWork = key => {
+  const saveWork = (key) => {
     setTimeout(() => {
       switch (key) {
         case 1:
@@ -859,17 +894,17 @@ export default function WorkCarryRepairScreen(props) {
   };
 
   const handleTypePipe = () => {
-    let _filter = '';
+    let _filter = "";
     if (props.data.process != null) {
-      if (props.data.process.piplineType != '') {
-        _filter = props.getTypeOfPipes.filter(val => {
+      if (props.data.process.piplineType != "") {
+        _filter = props.getTypeOfPipes.filter((val) => {
           return val.value == props.data.process.piplineType;
         });
       } else {
-        _filter = '';
+        _filter = "";
       }
     } else {
-      _filter = '';
+      _filter = "";
     }
 
     return _filter;
@@ -878,43 +913,44 @@ export default function WorkCarryRepairScreen(props) {
   const handleLeakWoundId = () => {
     let dataSelect;
     if (pickerdVal.leakwound) {
-      let _filter = props.getLeakwounds.filter(x => x.value === pickerdVal.leakwound);
+      let _filter = props.getLeakwounds.filter(
+        (x) => x.value === pickerdVal.leakwound
+      );
       if (_filter.length != 0) {
         dataSelect = _filter;
-      }
-      else {
-        dataSelect = '';
+      } else {
+        dataSelect = "";
       }
     } else {
-      dataSelect = '';
+      dataSelect = "";
     }
     return dataSelect;
   };
 
   const handleSurfaceAppearance = () => {
-    let _filter = '';
+    let _filter = "";
 
     if (props.data.process != null) {
-      if (props.data.process.surfaceAppearance != '') {
-        if (props.data.process.surfaceAppearance == '0') {
-          _filter = '';
+      if (props.data.process.surfaceAppearance != "") {
+        if (props.data.process.surfaceAppearance == "0") {
+          _filter = "";
         } else {
-          _filter = props.getSerfaces.filter(val => {
+          _filter = props.getSerfaces.filter((val) => {
             return val.value == props.data.process.surfaceAppearance;
           });
         }
       } else {
-        _filter = '';
+        _filter = "";
       }
     } else {
-      _filter = '';
+      _filter = "";
     }
 
     return _filter;
   };
 
   const handleSizePipe = () => {
-    let _r = '';
+    let _r = "";
     if (props.data.process != null) {
       _r = props.data.process.piplineSize;
     }
@@ -922,73 +958,73 @@ export default function WorkCarryRepairScreen(props) {
   };
 
   const handleProcessPipes = () => {
-    let _r = '';
+    let _r = "";
     if (props.data.process != null) {
       _r = props.data.process.isNotGIS;
     }
     return _r;
-  }
+  };
 
   // Begin For Android
   const timePicker_A = useCallback(
     (event, selectedDate) => {
       const currentDate = selectedDate || date;
-      setShow(Platform.OS === 'ios');
-      setSateDataParams('timeFrom', convertTimeNowFormate(currentDate));
+      setShow(Platform.OS === "ios");
+      setSateDataParams("timeFrom", convertTimeNowFormate(currentDate));
     },
-    [setSateDataParams],
+    [setSateDataParams]
   );
 
   const timePicker_B = useCallback(
     (event, selectedDate) => {
       const currentDate = selectedDate || date;
-      setShow(Platform.OS === 'ios');
-      setSateDataParams('timeTo', convertTimeNowFormate(currentDate));
+      setShow(Platform.OS === "ios");
+      setSateDataParams("timeTo", convertTimeNowFormate(currentDate));
     },
-    [setSateDataParams],
+    [setSateDataParams]
   );
 
   const timePicker_C = useCallback(
     (event, selectedDate) => {
       const currentDate = selectedDate || date;
-      setShow(Platform.OS === 'ios');
-      setSateDataParams('timeTextTrue', convertTimeNowFormate(currentDate));
+      setShow(Platform.OS === "ios");
+      setSateDataParams("timeTextTrue", convertTimeNowFormate(currentDate));
     },
-    [setSateDataParams],
+    [setSateDataParams]
   );
 
   const datePicker_A = useCallback(
     (event, selectedDate) => {
       const currentDate = selectedDate || date;
-      setShow(Platform.OS === 'ios');
-      setSateDataParams('dateForm', dateViewShort(currentDate));
+      setShow(Platform.OS === "ios");
+      setSateDataParams("dateForm", dateViewShort(currentDate));
     },
-    [setSateDataParams],
+    [setSateDataParams]
   );
 
   const datePicker_B = useCallback(
     (event, selectedDate) => {
       const currentDate = selectedDate || date;
-      setShow(Platform.OS === 'ios');
-      setSateDataParams('dateTo', dateViewShort(currentDate));
+      setShow(Platform.OS === "ios");
+      setSateDataParams("dateTo", dateViewShort(currentDate));
     },
-    [setSateDataParams],
+    [setSateDataParams]
   );
 
   const datePicker_C = useCallback(
     (event, selectedDate) => {
       const currentDate = selectedDate || date;
-      setShow(Platform.OS === 'ios');
-      setSateDataParams('dateTextTure', dateViewShort(currentDate));
+      setShow(Platform.OS === "ios");
+      setSateDataParams("dateTextTure", dateViewShort(currentDate));
     },
-    [setSateDataParams],
+    [setSateDataParams]
   );
 
   // End For Android
 
   const DateTimePickker = () => {
     return (
-      <DateTimePicker
+      <DateTimePickerModal
         testID="dateTimePicker"
         locale="th-TH"
         value={date}
@@ -1000,57 +1036,57 @@ export default function WorkCarryRepairScreen(props) {
     );
   };
 
-  const showTimePiker = key => {
+  const showTimePiker = (key) => {
     switch (key) {
       case 1:
         setShow(true);
-        setCustomPickerdateTime(current => ({
+        setCustomPickerdateTime((current) => ({
           ...current,
-          mode: 'time',
+          mode: "time",
           onChang: timePicker_A,
         }));
 
         break;
       case 2:
         setShow(true);
-        setCustomPickerdateTime(current => ({
+        setCustomPickerdateTime((current) => ({
           ...current,
-          mode: 'time',
+          mode: "time",
           onChang: timePicker_B,
         }));
         break;
       case 3:
         setShow(true);
-        setCustomPickerdateTime(current => ({
+        setCustomPickerdateTime((current) => ({
           ...current,
-          mode: 'time',
+          mode: "time",
           onChang: timePicker_C,
         }));
         break;
 
       case 4:
         setShow(true);
-        setCustomPickerdateTime(current => ({
+        setCustomPickerdateTime((current) => ({
           ...current,
-          mode: 'date',
+          mode: "date",
           onChang: datePicker_A,
         }));
         break;
 
       case 5:
         setShow(true);
-        setCustomPickerdateTime(current => ({
+        setCustomPickerdateTime((current) => ({
           ...current,
-          mode: 'date',
+          mode: "date",
           onChang: datePicker_B,
         }));
         break;
 
       case 6:
         setShow(true);
-        setCustomPickerdateTime(current => ({
+        setCustomPickerdateTime((current) => ({
           ...current,
-          mode: 'date',
+          mode: "date",
           onChang: datePicker_C,
         }));
         break;
@@ -1061,17 +1097,17 @@ export default function WorkCarryRepairScreen(props) {
   };
 
   const handleRepaireAccountId = () => {
-    let _filter = '';
+    let _filter = "";
     if (props.data.process != null) {
-      if (props.data.process.repaireAccountId != '') {
-        _filter = props.empoyees.filter(val => {
+      if (props.data.process.repaireAccountId != "") {
+        _filter = props.empoyees.filter((val) => {
           return val.value == props.data.process.repaireAccountId;
         });
       } else {
-        _filter = '';
+        _filter = "";
       }
     } else {
-      _filter = '';
+      _filter = "";
     }
     return _filter;
   };
@@ -1089,7 +1125,10 @@ export default function WorkCarryRepairScreen(props) {
 
   const disProcesspipes = () => {
     let _dis = false;
-    if (workRepairDetailReducer.dataArray.survey.latitude == "" && workRepairDetailReducer.dataArray.survey.latitude == "") {
+    if (
+      workRepairDetailReducer.dataArray.survey.latitude == "" &&
+      workRepairDetailReducer.dataArray.survey.latitude == ""
+    ) {
       _dis = true;
     } else {
       _dis = false;
@@ -1098,29 +1137,30 @@ export default function WorkCarryRepairScreen(props) {
     return _dis;
   };
 
-
-
   return (
-    <View style={{ flex: 1 }}>
-      <ScrollView style={{ backgroundColor: '#FFFFFF' }}>
+    <KeyboardAwareScrollView style={{ backgroundColor: "#FFFFFF" }}>
+      <View style={{ flex: 1 }}>
         <NativeBaseProvider>
           <View
             style={{
               flex: 1,
-              flexDirection: 'column',
+              flexDirection: "column",
               marginVertical: 10,
-            }}>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
+            }}
+          >
+            <View style={{ flex: 1, flexDirection: "row" }}>
               <View
                 style={{
                   flex: 1,
-                }}>
+                }}
+              >
                 <View
                   style={{
-                    flexDirection: 'row',
+                    flexDirection: "row",
                     marginHorizontal: 10,
-                    justifyContent: 'space-between',
-                  }}>
+                    justifyContent: "space-between",
+                  }}
+                >
                   <View style={{ flex: 1, marginRight: 5 }}>
                     <Text style={textsty.text_normal_bold}>จาก</Text>
                   </View>
@@ -1128,14 +1168,15 @@ export default function WorkCarryRepairScreen(props) {
                     <Text style={textsty.text_normal_bold}>เวลา</Text>
                   </View>
                 </View>
-                <View style={{ flexDirection: 'row', marginHorizontal: 10 }}>
+                <View style={{ flexDirection: "row", marginHorizontal: 10 }}>
                   <View style={{ flex: 1, marginRight: 5 }}>
                     <TouchableOpacity
                       onPress={() =>
-                        Platform.OS == 'ios'
+                        Platform.OS == "ios"
                           ? setVisibleDateFrom(true)
                           : showTimePiker(4)
-                      }>
+                      }
+                    >
                       <InputNormal
                         hint="วันที่"
                         val={dateTime.dateForm}
@@ -1161,10 +1202,11 @@ export default function WorkCarryRepairScreen(props) {
                   <View style={{ flex: 1 }}>
                     <TouchableOpacity
                       onPress={() => {
-                        Platform.OS == 'ios'
+                        Platform.OS == "ios"
                           ? setVisibleTimeFrom(true)
                           : showTimePiker(1);
-                      }}>
+                      }}
+                    >
                       <InputNormal
                         hint="วันที่"
                         val={dateTime.timeFrom}
@@ -1190,19 +1232,21 @@ export default function WorkCarryRepairScreen(props) {
                 </View>
               </View>
             </View>
-            <View style={{ flex: 1, flexDirection: 'row', marginVertical: 10 }}>
+            <View style={{ flex: 1, flexDirection: "row", marginVertical: 10 }}>
               <View
                 style={{
                   flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <View
                   style={{
-                    flexDirection: 'row',
+                    flexDirection: "row",
                     marginHorizontal: 10,
-                    justifyContent: 'space-between',
-                  }}>
+                    justifyContent: "space-between",
+                  }}
+                >
                   <View style={{ flex: 1, marginRight: 5 }}>
                     <Text style={textsty.text_normal_bold}>ถึง</Text>
                   </View>
@@ -1210,14 +1254,15 @@ export default function WorkCarryRepairScreen(props) {
                     <Text style={textsty.text_normal_bold}>เวลา</Text>
                   </View>
                 </View>
-                <View style={{ flexDirection: 'row', marginHorizontal: 10 }}>
+                <View style={{ flexDirection: "row", marginHorizontal: 10 }}>
                   <View style={{ flex: 1, marginRight: 5 }}>
                     <TouchableOpacity
                       onPress={() =>
-                        Platform.OS == 'ios'
+                        Platform.OS == "ios"
                           ? setVisibleDateTo(true)
                           : showTimePiker(5)
-                      }>
+                      }
+                    >
                       <InputNormal
                         hint="วันที่"
                         val={dateTime.dateTo}
@@ -1243,10 +1288,11 @@ export default function WorkCarryRepairScreen(props) {
                   <View style={{ flex: 1 }}>
                     <TouchableOpacity
                       onPress={() => {
-                        Platform.OS == 'ios'
+                        Platform.OS == "ios"
                           ? setVisibleTimeTo(true)
                           : showTimePiker(2);
-                      }}>
+                      }}
+                    >
                       <InputNormal
                         hint="วันที่"
                         val={dateTime.timeTo}
@@ -1272,19 +1318,21 @@ export default function WorkCarryRepairScreen(props) {
                 </View>
               </View>
             </View>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{ flex: 1, flexDirection: "row" }}>
               <View
                 style={{
                   flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <View
                   style={{
-                    flexDirection: 'row',
+                    flexDirection: "row",
                     marginHorizontal: 10,
-                    justifyContent: 'space-between',
-                  }}>
+                    justifyContent: "space-between",
+                  }}
+                >
                   <View style={{ flex: 1, marginRight: 5 }}>
                     <Text style={textsty.text_normal_bold}>ซ่อมพื้นผิว</Text>
                   </View>
@@ -1292,14 +1340,15 @@ export default function WorkCarryRepairScreen(props) {
                     <Text style={textsty.text_normal_bold}>เวลา</Text>
                   </View>
                 </View>
-                <View style={{ flexDirection: 'row', marginHorizontal: 10 }}>
+                <View style={{ flexDirection: "row", marginHorizontal: 10 }}>
                   <View style={{ flex: 1, marginRight: 5 }}>
                     <TouchableOpacity
                       onPress={() =>
-                        Platform.OS == 'ios'
+                        Platform.OS == "ios"
                           ? setVisibleDateTextTure(true)
                           : showTimePiker(6)
-                      }>
+                      }
+                    >
                       <InputNormal
                         hint="วันที่"
                         val={dateTime.dateTextTure}
@@ -1325,10 +1374,11 @@ export default function WorkCarryRepairScreen(props) {
                   <View style={{ flex: 1 }}>
                     <TouchableOpacity
                       onPress={() => {
-                        Platform.OS == 'ios'
+                        Platform.OS == "ios"
                           ? setVisibleTimeTextTure(true)
                           : showTimePiker(3);
-                      }}>
+                      }}
+                    >
                       <InputNormal
                         hint="วันที่"
                         val={dateTime.timeTextTrue}
@@ -1357,17 +1407,18 @@ export default function WorkCarryRepairScreen(props) {
             <View style={{ height: 30 }} />
             <View style={othersty.liner} />
           </View>
-          <View style={{ flex: 1, flexDirection: 'column', marginTop: 10 }}>
+          <View style={{ flex: 1, flexDirection: "column", marginTop: 10 }}>
             <View style={{ flex: 1 }}>
               <View
                 style={{
                   flex: 1,
                   paddingHorizontal: 10,
-                }}>
+                }}
+              >
                 <Text style={textsty.text_normal_bold}>ผู้ซ่อม</Text>
                 <VStack alignItems="center" space={4}>
                   <Select
-                    key={'select1'}
+                    key={"select1"}
                     selectedValue={pickerdVal.empoyees}
                     width="100%"
                     boxSize={0.035 * viewportHeight}
@@ -1382,15 +1433,20 @@ export default function WorkCarryRepairScreen(props) {
                     accessibilityLabel="เลือกผู้ซ่อม"
                     placeholder="เลือกผู้ซ่อม"
                     selectedVal={handleRepaireAccountId()}
-                    onValueChange={itemValue =>
-                      setPickerData('empoyees', itemValue)
+                    onValueChange={(itemValue) =>
+                      setPickerData("empoyees", itemValue)
                     }
                     _selectedItem={{
-                      bg: '#2c689e',
+                      bg: "#2c689e",
                       endIcon: <CheckIcon size={4} />,
-                    }}>
+                    }}
+                  >
                     {props.empoyees.map((val, index) => (
-                      <Select.Item key={index} label={val.label} value={val.value} />
+                      <Select.Item
+                        key={index}
+                        label={val.label}
+                        value={val.value}
+                      />
                     ))}
                   </Select>
                 </VStack>
@@ -1405,7 +1461,7 @@ export default function WorkCarryRepairScreen(props) {
                   val={brokenAppearance}
                   color="black"
                 /> */}
-                <HStack alignItems="center" mt={1} >
+                <HStack alignItems="center" mt={1}>
                   <Text style={[textsty.text_normal_bold]}>
                     ลักษณะการแตก (รูปแบบแผล)
                   </Text>
@@ -1413,7 +1469,7 @@ export default function WorkCarryRepairScreen(props) {
                 </HStack>
                 <VStack alignItems="center" space={4}>
                   <Select
-                    key={'select2'}
+                    key={"select2"}
                     selectedValue={pickerdVal.leakwound}
                     width="100%"
                     boxSize={0.035 * viewportHeight}
@@ -1428,40 +1484,45 @@ export default function WorkCarryRepairScreen(props) {
                     accessibilityLabel="เลือกลักษณะการแตก"
                     placeholder="เลือกลักษณะการแตก"
                     selectedVal={handleLeakWoundId()}
-                    onValueChange={itemValue =>
-                      setPickerData('leakwound', itemValue)
+                    onValueChange={(itemValue) =>
+                      setPickerData("leakwound", itemValue)
                     }
                     _selectedItem={{
-                      bg: '#2c689e',
+                      bg: "#2c689e",
                       endIcon: <CheckIcon size={4} />,
-                    }}>
+                    }}
+                  >
                     {props.getLeakwounds.map((val, index) => (
-                      <Select.Item key={index} label={val.label} value={val.value} />
+                      <Select.Item
+                        key={index}
+                        label={val.label}
+                        value={val.value}
+                      />
                     ))}
                   </Select>
                 </VStack>
 
                 <View style={WorkCarryRepairStyle.space} />
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{ flexDirection: "row" }}>
                   <View style={{ flex: 2, marginRight: 5 }}>
-                    <HStack alignItems="center" >
+                    <HStack alignItems="center">
                       <Text style={textsty.text_normal_bold}>ชนิดของท่อ</Text>
                       <Text style={[textsty.text_request]}>*</Text>
                     </HStack>
                   </View>
                   <View style={{ flex: 1 }}>
-                    <HStack alignItems="center" >
+                    <HStack alignItems="center">
                       <Text style={textsty.text_normal_bold}>ขนาดของท่อ</Text>
                       <Text style={[textsty.text_request]}>*</Text>
                     </HStack>
                   </View>
                 </View>
 
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{ flexDirection: "row" }}>
                   <View style={{ flex: 2, marginRight: 5 }}>
                     <VStack alignItems="center" space={4}>
                       <Select
-                        key={'select3'}
+                        key={"select3"}
                         selectedValue={pickerdVal.tpyofpipes}
                         width="100%"
                         _ios={{ boxSize: 0.04 * viewportHeight }}
@@ -1476,15 +1537,20 @@ export default function WorkCarryRepairScreen(props) {
                         placeholder="เลือกชนิดของท่อ"
                         selectedVal={handleTypePipe()}
                         isDisabled={!checked}
-                        onValueChange={itemValue =>
-                          setPickerData('tpyofpipes', itemValue)
+                        onValueChange={(itemValue) =>
+                          setPickerData("tpyofpipes", itemValue)
                         }
                         _selectedItem={{
-                          bg: '#2c689e',
+                          bg: "#2c689e",
                           endIcon: <CheckIcon size={4} />,
-                        }}>
+                        }}
+                      >
                         {props.getTypeOfPipes.map((val, index) => (
-                          <Select.Item key={index}  label={val.label} value={val.value} />
+                          <Select.Item
+                            key={index}
+                            label={val.label}
+                            value={val.value}
+                          />
                         ))}
                       </Select>
                     </VStack>
@@ -1493,7 +1559,7 @@ export default function WorkCarryRepairScreen(props) {
                   <View style={{ flex: 1 }}>
                     <VStack alignItems="center" space={4}>
                       <Select
-                        key={'select4'}
+                        key={"select4"}
                         selectedValue={pickerdVal.sizeofpipes}
                         width="100%"
                         _ios={{ boxSize: 0.04 * viewportHeight }}
@@ -1508,13 +1574,14 @@ export default function WorkCarryRepairScreen(props) {
                         placeholder="เลือกขนาดของท่อ"
                         selectedVal={handleSizePipe()}
                         isDisabled={disSizePipe()}
-                        onValueChange={itemValue =>
-                          setPickerData('sizeofpipes', itemValue)
+                        onValueChange={(itemValue) =>
+                          setPickerData("sizeofpipes", itemValue)
                         }
                         _selectedItem={{
-                          bg: '#2c689e',
+                          bg: "#2c689e",
                           endIcon: <CheckIcon size={4} />,
-                        }}>
+                        }}
+                      >
                         {arrPipeSize.map((val, index) => (
                           <Select.Item key={index} label={val} value={val} />
                         ))}
@@ -1523,21 +1590,25 @@ export default function WorkCarryRepairScreen(props) {
                   </View>
                 </View>
                 <View style={WorkCarryRepairStyle.space} />
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{ flexDirection: "row" }}>
                   <View style={{ flex: 2, marginRight: 5 }}>
-                    <HStack alignItems="center" >
-                      <Text style={textsty.text_normal_bold}>สถานะลงจุดซ่อม (GIS)</Text>
+                    <HStack alignItems="center">
+                      <Text style={textsty.text_normal_bold}>
+                        สถานะลงจุดซ่อม (GIS)
+                      </Text>
                       <Text style={[textsty.text_request]}>*</Text>
                       {checkedLat ? (
-                        <Text style={textsty.text_normal_bold}>กรุณาลงจุดซ่อม</Text>
+                        <Text style={textsty.text_normal_bold}>
+                          กรุณาลงจุดซ่อม
+                        </Text>
                       ) : null}
                     </HStack>
                   </View>
                 </View>
-                <View style={{ flexDirection: 'column' }}>
+                <View style={{ flexDirection: "column" }}>
                   <VStack alignItems="center" space={4}>
                     <Select
-                      key={'select5'}
+                      key={"select5"}
                       selectedValue={pickerdVal.processpipes}
                       width="100%"
                       _ios={{ boxSize: 0.04 * viewportHeight }}
@@ -1552,15 +1623,20 @@ export default function WorkCarryRepairScreen(props) {
                       placeholder="เลือกสถานะลงจุดซ่อม(GIS)"
                       selectedVal={handleProcessPipes()}
                       isDisabled={disProcesspipes()}
-                      onValueChange={itemValue =>
-                        setPickerData('processpipes', itemValue)
+                      onValueChange={(itemValue) =>
+                        setPickerData("processpipes", itemValue)
                       }
                       _selectedItem={{
-                        bg: '#2c689e',
+                        bg: "#2c689e",
                         endIcon: <CheckIcon size={4} />,
-                      }}>
+                      }}
+                    >
                       {arrProcessGIS.map((val, index) => (
-                        <Select.Item key={index} label={val.label} value={val.value} />
+                        <Select.Item
+                          key={index}
+                          label={val.label}
+                          value={val.value}
+                        />
                       ))}
                     </Select>
                   </VStack>
@@ -1592,7 +1668,7 @@ export default function WorkCarryRepairScreen(props) {
                 <Text style={textsty.text_normal_bold}>ลักษณะพื้นผิว</Text>
                 <VStack alignItems="center" space={4}>
                   <Select
-                    key={'select6'}
+                    key={"select6"}
                     selectedValue={pickerdVal.serfaces}
                     width="100%"
                     _ios={{ boxSize: 0.04 * viewportHeight }}
@@ -1606,29 +1682,34 @@ export default function WorkCarryRepairScreen(props) {
                     accessibilityLabel="ลักษณะพื้นผิว"
                     placeholder="ลักษณะพื้นผิว"
                     selectedVal={handleSurfaceAppearance()}
-                    onValueChange={itemValue =>
-                      setPickerData('serfaces', itemValue)
+                    onValueChange={(itemValue) =>
+                      setPickerData("serfaces", itemValue)
                     }
                     _selectedItem={{
-                      bg: '#2c689e',
+                      bg: "#2c689e",
                       endIcon: <CheckIcon size={4} />,
-                    }}>
+                    }}
+                  >
                     {props.getSerfaces.map((val, index) => (
-                      <Select.Item key={index} label={val.label} value={val.value} />
+                      <Select.Item
+                        key={index}
+                        label={val.label}
+                        value={val.value}
+                      />
                     ))}
                   </Select>
                 </VStack>
                 <View style={WorkCarryRepairStyle.space} />
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{ flexDirection: "row" }}>
                   <View style={{ flex: 2, marginRight: 5 }}>
                     <Text style={textsty.text_normal_bold}>ขนาดหลุม</Text>
                   </View>
                 </View>
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{ flexDirection: "row" }}>
                   <View style={{ flex: 2, marginRight: 5 }}>
                     <InputNormal
                       hint="กว้าง"
-                      onChangeText={text => setHoleWidth(text)}
+                      onChangeText={(text) => setHoleWidth(text)}
                       val={holeWidth}
                       color="#2c689e"
                     />
@@ -1636,7 +1717,7 @@ export default function WorkCarryRepairScreen(props) {
                   <View style={{ flex: 2, marginRight: 5 }}>
                     <InputNormal
                       hint="ยาว"
-                      onChangeText={text => setHoleLength(text)}
+                      onChangeText={(text) => setHoleLength(text)}
                       val={holeLength}
                       color="#2c689e"
                     />
@@ -1644,7 +1725,7 @@ export default function WorkCarryRepairScreen(props) {
                   <View style={{ flex: 2, marginRight: 5 }}>
                     <InputNormal
                       hint="ลึก"
-                      onChangeText={text => setHoleDepth(text)}
+                      onChangeText={(text) => setHoleDepth(text)}
                       val={holeDepth}
                       color="#2c689e"
                     />
@@ -1654,73 +1735,75 @@ export default function WorkCarryRepairScreen(props) {
             </View>
           </View>
           <View style={{ height: 10 }} />
-          <View style={{ flexDirection: 'row', marginHorizontal: 10 }}>
+          <View style={{ flexDirection: "row", marginHorizontal: 10 }}>
             <TouchableOpacity
               style={{
                 flex: 1,
-                backgroundColor: '#f57c00',
+                backgroundColor: "#f57c00",
                 height: 35,
                 borderRadius: 10,
-                borderColor: '#f57c00',
+                borderColor: "#f57c00",
                 marginTop: 20,
                 borderWidth: 1,
                 marginRight: 10,
-                justifyContent: 'center',
-                alignItems: 'center',
+                justifyContent: "center",
+                alignItems: "center",
               }}
               onPress={() => {
-                settingAlert('ALERT_CLOSE_WORK_REPAIR');
-              }}>
-              <Text style={[textsty.text_normal_bold, { color: 'white' }]}>
+                settingAlert("ALERT_CLOSE_WORK_REPAIR");
+              }}
+            >
+              <Text style={[textsty.text_normal_bold, { color: "white" }]}>
                 ปิดงานซ่อม
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={{
                 flex: 1,
-                backgroundColor: '#2c689e',
+                backgroundColor: "#2c689e",
                 height: 35,
                 borderRadius: 10,
-                borderColor: '#2c689e',
+                borderColor: "#2c689e",
                 marginTop: 20,
                 borderWidth: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
+                justifyContent: "center",
+                alignItems: "center",
               }}
               onPress={() => {
-                settingAlert('ALERT_CONFIRM_SAVE_RESULT');
-              }}>
-              <Text style={[textsty.text_normal_bold, { color: 'white' }]}>
+                settingAlert("ALERT_CONFIRM_SAVE_RESULT");
+              }}
+            >
+              <Text style={[textsty.text_normal_bold, { color: "white" }]}>
                 บันทึกผล
               </Text>
             </TouchableOpacity>
           </View>
         </NativeBaseProvider>
-      </ScrollView>
-      <LoadingSpinner
-        visible={visibleLoading}
-        textContent="กำลังโหลด"
-        animation={'fade'}
-        color={'#0000ff'}
-      />
-      <LoadingSpinner
-        visible={isLoaddingSave}
-        textContent="กำลังบันทึก"
-        animation={'fade'}
-        color={'#0000ff'}
-      />
-      <Awesome
-        visible={visibleAlert}
-        titleIcon={customAlert.titleIcon}
-        showConfirmButton={customAlert.showConfirmButton}
-        showCancelButton={customAlert.showCancelButton}
-        textBody={customAlert.textBody}
-        confirmText={customAlert.confirmText}
-        cancelText={customAlert.cancelText}
-        onConfirmPress={customAlert.onConfirmPress}
-        onCancelPress={customAlert.onCancelPress}
-      />
-      {show && <DateTimePickker />}
-    </View>
+        <LoadingSpinner
+          visible={visibleLoading}
+          textContent="กำลังโหลด"
+          animation={"fade"}
+          color={"#0000ff"}
+        />
+        <LoadingSpinner
+          visible={isLoaddingSave}
+          textContent="กำลังบันทึก"
+          animation={"fade"}
+          color={"#0000ff"}
+        />
+        <Awesome
+          visible={visibleAlert}
+          titleIcon={customAlert.titleIcon}
+          showConfirmButton={customAlert.showConfirmButton}
+          showCancelButton={customAlert.showCancelButton}
+          textBody={customAlert.textBody}
+          confirmText={customAlert.confirmText}
+          cancelText={customAlert.cancelText}
+          onConfirmPress={customAlert.onConfirmPress}
+          onCancelPress={customAlert.onCancelPress}
+        />
+        {show && <DateTimePickker />}
+      </View>
+    </KeyboardAwareScrollView>
   );
 }

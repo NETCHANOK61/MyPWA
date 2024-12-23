@@ -9,7 +9,8 @@ import {
   Dimensions,
 } from "react-native";
 import { Box, NativeBaseProvider } from "native-base";
-import { DatePickerModal } from "react-native-paper-dates";
+// import { DatePickerModal } from "react-native-paper-dates";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useSelector, useDispatch } from "react-redux";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import moment from "moment";
@@ -22,6 +23,10 @@ import LoadingSpinner from "../../components/loading-spinner/loading-spinner";
 import * as receiveRepairFeedJsonAction from "../../actions/receiverepair/ReceiveRepairFeedJsonAction";
 import * as workRepairAction from "../../actions/workrepair/WorkRepairAction";
 import { SafeAreaView } from "react-native-safe-area-context";
+// import { registerTranslation } from 'react-native-paper-dates';
+// import { th } from 'date-fns/locale'; // Import the Thai locale from date-fns
+
+// registerTranslation('th', th); // Register the Thai locale
 
 const { width: viewportWidth, height: viewportHeight } =
   Dimensions.get("window");
@@ -87,8 +92,8 @@ export default function ReceiveRepairSearchScreen(props) {
   const onConfirmSingle_noti = React.useCallback(
     (params) => {
       setOpenNoti(false);
-      setDate(params.date);
-      setNotiDate(moment(params.date).format("DD/MM/YYYY"));
+      setDate(params);
+      setNotiDate(formatDate(params));
     },
     [setOpenNoti, setDate]
   );
@@ -97,37 +102,31 @@ export default function ReceiveRepairSearchScreen(props) {
     (params) => {
       setOpenTo(false);
       setDate(params.date);
-      setToDate(moment(params.date).format("DD/MM/YYYY"));
+      setToDate(formatDate(params));
     },
     [(setOpenTo, setDate)]
   );
 
   const DatePicker_Noti = ({ con, dis }) => {
-    let dateNoti = moment(notiDate, "DD/MM/YYYY");
     return (
-      <DatePickerModal
-        locale={"th"}
-        mode="single"
-        visible={openNoti}
-        onDismiss={dis}
-        date={new Date(dateNoti)}
-        allowEditing={true}
+      <DateTimePickerModal
+        isVisible={openNoti}
+        mode="date"
         onConfirm={con}
+        onCancel={dis}
+        locale="th_TH"
       />
     );
   };
 
   const DatePicker_to = ({ con, dis }) => {
-    let dateTo = moment(toDate, "DD/MM/YYYY");
     return (
-      <DatePickerModal
-        locale={"th"}
-        mode="single"
-        visible={openTo}
-        onDismiss={dis}
-        date={new Date(dateTo)}
-        allowEditing={true}
+      <DateTimePickerModal
+        isVisible={openTo}
+        mode="date"
         onConfirm={con}
+        onCancel={dis}
+        locale="th_TH"
       />
     );
   };
@@ -138,7 +137,6 @@ export default function ReceiveRepairSearchScreen(props) {
       const currentDate = selectedDate || date;
       setShow(Platform.OS === "ios");
       setNotiDate(formatDate(currentDate));
-      // console.log("formatDate in setStateDate_Noti", formatDate(currentDate));
     },
     [setNotiDate]
   );

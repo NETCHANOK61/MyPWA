@@ -454,7 +454,6 @@ const MyTab = ({ navigation, route }) => {
     return currentRoute.name;
   });
 
-  console.log(routeName)
   useEffect(() => {
     // Helper function to set header options
     const setHeaderOptions = (options) => {
@@ -482,8 +481,8 @@ const MyTab = ({ navigation, route }) => {
             activeOpacity={0.1}
             onPress={() => {
               if (route.params.page === "1") {
-                navigation.navigate("Success2");
                 navigation.jumpTo("WorkRepair", { owner: "WorkRepair" });
+                navigation.navigate("Success2");
               } else {
                 navigation.goBack();
                 navigation.jumpTo("WorkRepair", { owner: "WorkRepair" });
@@ -501,7 +500,7 @@ const MyTab = ({ navigation, route }) => {
         ),
       });
     }
-  }, [routeName, route.params, navigation]);
+  }, [navigation]);
   
 
   // useEffect(() => {
