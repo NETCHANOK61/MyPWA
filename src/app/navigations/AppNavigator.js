@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { TouchableOpacity, Platform, Dimensions } from "react-native";
+import { TouchableOpacity, Platform, Dimensions, View, Text } from "react-native";
 import { useNavigationState } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import Icon from "react-native-vector-icons/Ionicons";
 
 import CheckUpdate from "../screen/checkupdate";
 import LoginScreen from "../screen/LoginScreen";
@@ -22,6 +23,8 @@ import location from "../components/location/Location";
 import savelocation from "../screen/jobsurvey/SaveLocationPointNormal/index";
 
 import mainTabScreen from "../screen/jobsurvey/MainTabScreen";
+import NotificationScreen from "../screen/notification/NotificationScreen";
+import style_noti from "../styles/Notification";
 
 const { width: viewportWidth, height: viewportHeight } =
   Dimensions.get("window");
@@ -101,6 +104,19 @@ const Tab3 = {
   tabBarLabel: "ข้อมูลผู้ใช้งาน",
   tabBarIcon: ({ color, size }) => (
     <MaterialCommunityIcons name="account" color="#2c689e" size={size} />
+  ),
+};
+
+const Tab4 = {
+  title: "แจ้งเตือน",
+  tabBarLabel: "แจ้งเตือน",
+  tabBarIcon: ({ color, size }) => (
+    <View>
+      <Icon name="notifications-outline" size={size} color={color} />
+        <View style={style_noti.badgeContainer}>
+          <Text style={style_noti.badgeText}>3</Text>
+        </View>
+    </View>
   ),
 };
 
@@ -421,6 +437,11 @@ const SuccessTab = ({ navigation, route }) => {
           component={ProfileStackScreen}
           options={Tab3}
         />
+        <Tab.Screen
+          name="Notification"
+          component={NotificationScreen}
+          options={Tab4}
+        />
       </>
     </Tab.Navigator>
   );
@@ -459,10 +480,11 @@ const MyTab = ({ navigation, route }) => {
     const setHeaderOptions = (options) => {
       navigation.setOptions(options);
     };
-  
+
     // Condition for "WorkTakePhotoScreen" and "camera" routes
-    const isHiddenHeader = routeName === "WorkTakePhotoScreen" || routeName === "camera";
-  
+    const isHiddenHeader =
+      routeName === "WorkTakePhotoScreen" || routeName === "camera";
+
     if (isHiddenHeader) {
       setHeaderOptions({
         title: "",
@@ -501,7 +523,6 @@ const MyTab = ({ navigation, route }) => {
       });
     }
   }, [navigation]);
-  
 
   // useEffect(() => {
   //   const state = navigation.getState();
