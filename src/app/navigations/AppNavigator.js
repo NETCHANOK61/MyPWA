@@ -112,9 +112,9 @@ const Tab4 = {
   tabBarLabel: "แจ้งเตือน",
   tabBarIcon: ({ color, size }) => (
     <View>
-      <Icon name="notifications-outline" size={size} color={color} />
+      <Icon name="notifications" size={size} color={"#2c689e"} />
         <View style={style_noti.badgeContainer}>
-          <Text style={style_noti.badgeText}>3</Text>
+          <Text style={style_noti.badgeText}>2</Text>
         </View>
     </View>
   ),
@@ -371,6 +371,38 @@ const ProfileStackScreen = ({ navigation, route }) => {
   );
 };
 
+const StackNotification = createStackNavigator();
+
+const StackNotificationScreen = ({ navigation, route }) => {
+  return (
+    <StackNotification.Navigator>
+      <StackNotification.Screen
+        name="noticeScreen"
+        component={NotificationScreen}
+        options={{
+          title: "การแจ้งเตือน",
+          headerTintColor: "#FFF",
+          headerTitleAlign: "center",
+          headerTitleStyle: {
+            fontFamily: "Prompt-Bold",
+            fontSize: 0.02 * viewportHeight,
+          },
+          headerStyle: {
+            backgroundColor: "#2c689e",
+            shadowRadius: 0,
+            shadowOffset: {
+              height: 0,
+            },
+            shadowColor: "transparent",
+            ...Platform.select({ android: { elevation: 0 } }),
+          },
+          headerLeft: null,
+        }}
+      />
+    </StackNotification.Navigator>
+  );
+};
+
 const SuccessTab = ({ navigation, route }) => {
   const routeName = useNavigationState((state) => {
     const currentRoute = state.routes[state.index];
@@ -439,7 +471,7 @@ const SuccessTab = ({ navigation, route }) => {
         />
         <Tab.Screen
           name="Notification"
-          component={NotificationScreen}
+          component={StackNotificationScreen}
           options={Tab4}
         />
       </>
