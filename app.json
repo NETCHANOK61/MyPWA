@@ -13,19 +13,24 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.nineeagle.MyPWA"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon_pwa.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.nineeagle.MyPWA"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      "expo-font"
-    ]
+    "extra": {
+      "eas": {
+        "projectId": "c0588afc-356a-4b06-bb69-9a0e86d5944a"
+      }
+    },
+    "owner": "water415"
   }
 }
