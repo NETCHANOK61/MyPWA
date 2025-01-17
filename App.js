@@ -2,33 +2,38 @@ import React, { useState, useEffect } from "react";
 import { Provider } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import * as Font from "expo-font";
 import store from "./src/app/store/store";
 import AppNavigator from "./src/app/navigations/AppNavigator";
-import { getProfile } from "./src/app/utils/Storage";
-// import { useFonts } from "expo-font";
 
 const App = () => {
-  const [showLogin, setShowLogin] = useState(false);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
-  const init = () => {
-    getProfile().then((profile) => {
-      setShowLogin(profile == null ? true : false);
-    });
+  const loadFonts = async () => {
+    try {
+      await Font.loadAsync({
+        "Prompt-Bold": require("./assets/fonts/Prompt-Bold.ttf"),
+        "Prompt-Regular": require("./assets/fonts/Prompt-Regular.ttf"),
+      });
+      setFontsLoaded(true);
+    } catch (error) {
+      console.error("Error loading fonts:", error);
+    }
   };
 
   useEffect(() => {
-    init();
+    loadFonts();
   }, []);
 
-  // โหลดฟอนต์
-  // const [fontsLoaded] = useFonts({
-  //   "Prompt-Bold": require("./assets/fonts/Prompt-Bold.ttf"),
-  //   "Prompt-Light": require("./assets/fonts/Prompt-Light.ttf"),
-  //   "Prompt-Medium": require("./assets/fonts/Prompt-Medium.ttf"),
-  //   "Prompt-Regular": require("./assets/fonts/Prompt-Regular.ttf"),
-  //   "Prompt-Thin": require("./assets/fonts/Prompt-Thin.ttf"),
-  // });
+  if (!fontsLoaded) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text>Loading Fonts...</Text>
+      </View>
+    );
+  }
 
   return (
     <Provider store={store}>
@@ -39,13 +44,19 @@ const App = () => {
           hidden={false}
         />
         <View style={{ flex: 1 }}>
-          {/* {!fontsLoaded && <Text>Loading...</Text>} */}
-          <AppNavigator showAuthen={showLogin} />
-          {/* <AppNavigator /> */}
+          <AppNavigator />
         </View>
       </NavigationContainer>
     </Provider>
   );
 };
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
 export default App;

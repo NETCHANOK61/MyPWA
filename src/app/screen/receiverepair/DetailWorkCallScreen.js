@@ -32,18 +32,6 @@ import {
 import DropDownPicker from "react-native-dropdown-picker";
 
 export default function DetailWorkCallScreen({ props, navigation }) {
-  // useLayoutEffect(() => {
-  //   navigation.getParent().setOptions({
-  //     tabBarStyle: { display: "none" },
-  //   });
-
-  //   return () => {
-  //     navigation.getParent().setOptions({
-  //       tabBarStyle: { display: "flex" },
-  //     });
-  //   };
-  // }, [navigation]);
-
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
 
@@ -119,7 +107,7 @@ export default function DetailWorkCallScreen({ props, navigation }) {
   const settingAlert = (key, value) => {
     setVisibleLoading(false);
     if (key == "ALERT_ACCEPT_SUCCESS") {
-      props.navigation.navigate("workrepairtabscreen", {
+      navigation.navigate("workrepairtabscreen", {
         rwcode: value,
         page: "1",
       });
@@ -152,7 +140,7 @@ export default function DetailWorkCallScreen({ props, navigation }) {
               () => {
                 setVisibleAlert(false);
                 dispatch(jsonActions.loadDataWitchPost(props));
-                props.navigation.goBack();
+                navigation.goBack();
               },
               () => {}
             );

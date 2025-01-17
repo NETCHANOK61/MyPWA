@@ -465,7 +465,6 @@ const MyTab = ({ navigation, route }) => {
   
     if (isHiddenHeader) {
       setHeaderOptions({
-        title: "",
         headerShown: false,
         headerBackTitle: " ",
       });
@@ -481,10 +480,11 @@ const MyTab = ({ navigation, route }) => {
             activeOpacity={0.1}
             onPress={() => {
               if (route.params.page === "1") {
-                navigation.jumpTo("WorkRepair", { owner: "WorkRepair" });
-                navigation.navigate("Success2");
-              } else {
                 navigation.goBack();
+                navigation.jumpTo("WorkRepair", { owner: "WorkRepair" });
+                // navigation.navigate("Success2");
+              } else {
+                // navigation.goBack();
                 navigation.jumpTo("WorkRepair", { owner: "WorkRepair" });
               }
             }}
@@ -500,63 +500,8 @@ const MyTab = ({ navigation, route }) => {
         ),
       });
     }
-  }, [navigation]);
+  }, [routeName]);
   
-
-  // useEffect(() => {
-  //   const state = navigation.getState();
-
-  //   const currentRoute = state.routes[state.index];
-  //   const isRoot = !currentRoute.state || currentRoute.state.index === 0;
-
-  //   if (isRoot) {
-  //     navigation.setOptions({
-  //       title: route.params.rwcode,
-  //       headerTitleStyle: { color: "#2c689e", fontFamily: "Prompt-Bold" },
-  //       headerTitleAlign: "center",
-  //       headerShown: true,
-  //       headerBackTitle: " ",
-  //       headerLeft: () => (
-  //         <TouchableOpacity
-  //           activeOpacity={0.1}
-  //           onPress={() => {
-  //             if (route.params.page == "1") {
-  //               // navigation.goBack();
-  //               navigation.navigate("Success2");
-  //               navigation.jumpTo("WorkRepair", {
-  //                 owner: "WorkRepair",
-  //               });
-  //             } else {
-  //               // navigation.goBack();
-  //               navigation.goBack();
-  //               navigation.jumpTo("WorkRepair", {
-  //                 owner: "WorkRepair",
-  //               });
-  //             }
-  //           }}
-  //           style={{ padding: 10 }}
-  //         >
-  //           <MaterialIcons
-  //             name="arrow-back-ios"
-  //             size={20}
-  //             color="#2c689e"
-  //             style={{
-  //               height: 24,
-  //               width: 24,
-  //             }}
-  //           />
-  //         </TouchableOpacity>
-  //       ),
-  //     });
-  //   } else {
-  //     navigation.setOptions({
-  //       title: "",
-  //       headerShown: false,
-  //       headerBackTitle: " ",
-  //     });
-  //   }
-  // }, [navigation, route]);
-
   return (
     <StackJobSurvey.Navigator
       initialRouteName="mainTabScreen"
@@ -611,7 +556,7 @@ const MyTab = ({ navigation, route }) => {
           headerTitleAlign: "center",
         }}
       />
-      <StackReciveRepair.Screen
+      {/* <StackReciveRepair.Screen
         name="workrepairtabscreen"
         component={MyTab}
         options={{
@@ -623,7 +568,7 @@ const MyTab = ({ navigation, route }) => {
           },
           headerBackTitle: " ",
         }}
-      />
+      /> */}
     </StackJobSurvey.Navigator>
   );
 };

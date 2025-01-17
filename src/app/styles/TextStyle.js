@@ -22,7 +22,7 @@ export default StyleSheet.create({
   },
   text_bold: {
     color: '#272a2f',
-    fontSize: 0.014 * height,
+    fontSize: 0.03 * width,
     fontFamily: 'Prompt-bold',
   },
 

@@ -31,6 +31,9 @@
         "projectId": "c0588afc-356a-4b06-bb69-9a0e86d5944a"
       }
     },
-    "owner": "water415"
+    "owner": "water415",
+    "plugins": [
+      "expo-font"
+    ]
   }
 }

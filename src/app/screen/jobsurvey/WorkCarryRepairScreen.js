@@ -52,9 +52,10 @@ import {
   requestPermissionsAccept,
 } from "../../utils/permissionsDevice";
 
-const InputNormal = ({ hint, onChangeText, val, color, dis }) => {
+const InputNormal = ({ hint, onChangeText, val, color, dis, typeOfInput }) => {
   return (
     <TextInput
+      inputMode={typeOfInput}
       style={[
         WorkCarryRepairStyle.textinput,
         { borderColor: color, color: "black" },
@@ -69,6 +70,7 @@ const InputNormal = ({ hint, onChangeText, val, color, dis }) => {
 };
 
 export default function WorkCarryRepairScreen(props) {
+  console.log(props.getLeakwounds)
   const dispatch = useDispatch();
 
   const workCarrayRepairReducer = useSelector(
@@ -126,6 +128,7 @@ export default function WorkCarryRepairScreen(props) {
     sizeofpipes: "",
     processpipes: "",
     leakwound: "",
+    leakwound_s: "",
   });
 
   const [customAlert, setCustomAlert] = useState({
@@ -338,9 +341,19 @@ export default function WorkCarryRepairScreen(props) {
       let _filterLeakwound = props.getLeakwounds.filter(
         (x) => x.value === label
       );
-      console.log(_filterLeakwound[0].label);
+      setPickerdVal((_state) => ({
+        ..._state,
+        leakwound_s: truncateText(_filterLeakwound[0].label, 20),
+      }));
       setBrokenAppearance(_filterLeakwound[0].label);
     }
+  };
+
+  const truncateText = (text, maxLength) => {
+    if (text && text.length > maxLength) {
+      return text.substring(0, maxLength) + "...";
+    }
+    return text;
   };
 
   const setSateDataParams = (key, value) => {
@@ -1170,13 +1183,7 @@ export default function WorkCarryRepairScreen(props) {
                 </View>
                 <View style={{ flexDirection: "row", marginHorizontal: 10 }}>
                   <View style={{ flex: 1, marginRight: 5 }}>
-                    <TouchableOpacity
-                      onPress={() =>
-                        Platform.OS == "ios"
-                          ? setVisibleDateFrom(true)
-                          : showTimePiker(4)
-                      }
-                    >
+                    <TouchableOpacity onPress={() => setVisibleDateFrom(true)}>
                       <InputNormal
                         hint="วันที่"
                         val={dateTime.dateForm}
@@ -1202,9 +1209,7 @@ export default function WorkCarryRepairScreen(props) {
                   <View style={{ flex: 1 }}>
                     <TouchableOpacity
                       onPress={() => {
-                        Platform.OS == "ios"
-                          ? setVisibleTimeFrom(true)
-                          : showTimePiker(1);
+                        setVisibleTimeFrom(true);
                       }}
                     >
                       <InputNormal
@@ -1256,13 +1261,7 @@ export default function WorkCarryRepairScreen(props) {
                 </View>
                 <View style={{ flexDirection: "row", marginHorizontal: 10 }}>
                   <View style={{ flex: 1, marginRight: 5 }}>
-                    <TouchableOpacity
-                      onPress={() =>
-                        Platform.OS == "ios"
-                          ? setVisibleDateTo(true)
-                          : showTimePiker(5)
-                      }
-                    >
+                    <TouchableOpacity onPress={() => setVisibleDateTo(true)}>
                       <InputNormal
                         hint="วันที่"
                         val={dateTime.dateTo}
@@ -1288,9 +1287,7 @@ export default function WorkCarryRepairScreen(props) {
                   <View style={{ flex: 1 }}>
                     <TouchableOpacity
                       onPress={() => {
-                        Platform.OS == "ios"
-                          ? setVisibleTimeTo(true)
-                          : showTimePiker(2);
+                        setVisibleTimeTo(true);
                       }}
                     >
                       <InputNormal
@@ -1343,11 +1340,7 @@ export default function WorkCarryRepairScreen(props) {
                 <View style={{ flexDirection: "row", marginHorizontal: 10 }}>
                   <View style={{ flex: 1, marginRight: 5 }}>
                     <TouchableOpacity
-                      onPress={() =>
-                        Platform.OS == "ios"
-                          ? setVisibleDateTextTure(true)
-                          : showTimePiker(6)
-                      }
+                      onPress={() => setVisibleDateTextTure(true)}
                     >
                       <InputNormal
                         hint="วันที่"
@@ -1374,9 +1367,7 @@ export default function WorkCarryRepairScreen(props) {
                   <View style={{ flex: 1 }}>
                     <TouchableOpacity
                       onPress={() => {
-                        Platform.OS == "ios"
-                          ? setVisibleTimeTextTure(true)
-                          : showTimePiker(3);
+                        setVisibleTimeTextTure(true);
                       }}
                     >
                       <InputNormal
@@ -1470,9 +1461,18 @@ export default function WorkCarryRepairScreen(props) {
                 <VStack alignItems="center" space={4}>
                   <Select
                     key={"select2"}
-                    selectedValue={pickerdVal.leakwound}
+                    // selectedValue={pickerdVal.leakwound}
+                    selectedValue={
+                      (() => {
+                        const selectedItem = props.getLeakwounds.find(
+                          (item) => item.value === pickerdVal.leakwound
+                        );
+                        const label = selectedItem ? selectedItem.label : "";
+                        return label.length > 10 ? label.substring(0, 10) + "..." : label;
+                      })()
+                    }
                     width="100%"
-                    boxSize={0.035 * viewportHeight}
+                    // boxSize={0.035 * viewportHeight}
                     _ios={{ boxSize: 0.04 * viewportHeight }}
                     _android={{ boxSize: 0.04 * viewportHeight }}
                     paddingTop={0}
@@ -1483,7 +1483,6 @@ export default function WorkCarryRepairScreen(props) {
                     fontFamily="Prompt-Regular"
                     accessibilityLabel="เลือกลักษณะการแตก"
                     placeholder="เลือกลักษณะการแตก"
-                    selectedVal={handleLeakWoundId()}
                     onValueChange={(itemValue) =>
                       setPickerData("leakwound", itemValue)
                     }
@@ -1504,7 +1503,7 @@ export default function WorkCarryRepairScreen(props) {
 
                 <View style={WorkCarryRepairStyle.space} />
                 <View style={{ flexDirection: "row" }}>
-                  <View style={{ flex: 2, marginRight: 5 }}>
+                  <View style={{ flex: 1, marginRight: 5 }}>
                     <HStack alignItems="center">
                       <Text style={textsty.text_normal_bold}>ชนิดของท่อ</Text>
                       <Text style={[textsty.text_request]}>*</Text>
@@ -1519,7 +1518,7 @@ export default function WorkCarryRepairScreen(props) {
                 </View>
 
                 <View style={{ flexDirection: "row" }}>
-                  <View style={{ flex: 2, marginRight: 5 }}>
+                  <View style={{ flex: 1, marginRight: 5 }}>
                     <VStack alignItems="center" space={4}>
                       <Select
                         key={"select3"}
@@ -1570,8 +1569,8 @@ export default function WorkCarryRepairScreen(props) {
                         borderColor="black"
                         fontSize={0.02 * viewportHeight}
                         fontFamily="Prompt-Regular"
-                        accessibilityLabel="เลือกขนาดของท่อ"
-                        placeholder="เลือกขนาดของท่อ"
+                        accessibilityLabel="เลือกขนาด"
+                        placeholder="เลือกขนาด"
                         selectedVal={handleSizePipe()}
                         isDisabled={disSizePipe()}
                         onValueChange={(itemValue) =>
@@ -1702,12 +1701,15 @@ export default function WorkCarryRepairScreen(props) {
                 <View style={WorkCarryRepairStyle.space} />
                 <View style={{ flexDirection: "row" }}>
                   <View style={{ flex: 2, marginRight: 5 }}>
-                    <Text style={textsty.text_normal_bold}>ขนาดหลุม</Text>
+                    <Text style={textsty.text_normal_bold}>
+                      ขนาดหลุม (เมตร)
+                    </Text>
                   </View>
                 </View>
                 <View style={{ flexDirection: "row" }}>
                   <View style={{ flex: 2, marginRight: 5 }}>
                     <InputNormal
+                      typeOfInput="decimal"
                       hint="กว้าง"
                       onChangeText={(text) => setHoleWidth(text)}
                       val={holeWidth}
@@ -1716,6 +1718,7 @@ export default function WorkCarryRepairScreen(props) {
                   </View>
                   <View style={{ flex: 2, marginRight: 5 }}>
                     <InputNormal
+                      typeOfInput="decimal"
                       hint="ยาว"
                       onChangeText={(text) => setHoleLength(text)}
                       val={holeLength}
@@ -1724,6 +1727,7 @@ export default function WorkCarryRepairScreen(props) {
                   </View>
                   <View style={{ flex: 2, marginRight: 5 }}>
                     <InputNormal
+                      typeOfInput="decimal"
                       hint="ลึก"
                       onChangeText={(text) => setHoleDepth(text)}
                       val={holeDepth}

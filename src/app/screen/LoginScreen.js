@@ -203,7 +203,7 @@ export default function LoginScreen(props) {
       <StatusBar barStyle="light-content" backgroundColor="#2c689e" />
       <View
         style={{
-          marginTop: 0.02 * viewportHeight,
+          marginTop: 0.1 * viewportHeight,
           marginHorizontal: 20,
           borderRadius: 10,
           alignItems: "center",
@@ -235,7 +235,7 @@ export default function LoginScreen(props) {
         >
           <Text
             style={{
-              fontSize: 0.02 * viewportHeight,
+              fontSize: 0.05 * viewportWidth,
               color: "#0d56a3",
               fontFamily: "Prompt-Bold",
               top: 30,
