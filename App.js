@@ -6,11 +6,6 @@ import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import * as Font from "expo-font";
 import store from "./src/app/store/store";
 import AppNavigator from "./src/app/navigations/AppNavigator";
-<<<<<<< HEAD
-=======
-import { getProfile } from "./src/app/utils/Storage";
-// import { useFonts } from "expo-font";
->>>>>>> a3381a7 (fix bug #1)
 
 const App = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -31,7 +26,6 @@ const App = () => {
     loadFonts();
   }, []);
 
-<<<<<<< HEAD
   if (!fontsLoaded) {
     return (
       <View style={styles.loadingContainer}>
@@ -40,16 +34,6 @@ const App = () => {
       </View>
     );
   }
-=======
-  // โหลดฟอนต์
-  // const [fontsLoaded] = useFonts({
-  //   "Prompt-Bold": require("./assets/fonts/Prompt-Bold.ttf"),
-  //   "Prompt-Light": require("./assets/fonts/Prompt-Light.ttf"),
-  //   "Prompt-Medium": require("./assets/fonts/Prompt-Medium.ttf"),
-  //   "Prompt-Regular": require("./assets/fonts/Prompt-Regular.ttf"),
-  //   "Prompt-Thin": require("./assets/fonts/Prompt-Thin.ttf"),
-  // });
->>>>>>> a3381a7 (fix bug #1)
 
   return (
     <Provider store={store}>
@@ -60,12 +44,7 @@ const App = () => {
           hidden={false}
         />
         <View style={{ flex: 1 }}>
-<<<<<<< HEAD
           <AppNavigator />
-=======
-          {/* {!fontsLoaded && <Text>Loading...</Text>} */}
-          <AppNavigator showAuthen={showLogin} />
->>>>>>> a3381a7 (fix bug #1)
         </View>
       </NavigationContainer>
     </Provider>
