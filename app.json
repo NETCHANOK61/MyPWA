@@ -1,11 +1,12 @@
 {
   "expo": {
+    "entryPoint": "./index.js",
     "newArchEnabled": true,
     "name": "MyPWA",
     "slug": "MyPWA",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon_pwa.png",
+    "icon": "./assets/icon_pwa.png'",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/icon_pwa.png",
@@ -34,6 +35,11 @@
     "owner": "water415",
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "0450cd04-2cb2-4772-833c-7c8f63c9cf4c"
+      }
+    }
   }
 }
